@@ -51,7 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Categoria: 'Categoria',
+  Ticket: 'Ticket',
+  Comentario: 'Comentario',
+  Notificacion: 'Notificacion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,10 +81,56 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   role: 'role',
-  ceado: 'ceado'
+  creado: 'creado'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const CategoriaScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  creado: 'creado'
+} as const
+
+export type CategoriaScalarFieldEnum = (typeof CategoriaScalarFieldEnum)[keyof typeof CategoriaScalarFieldEnum]
+
+
+export const TicketScalarFieldEnum = {
+  id: 'id',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  prioridad: 'prioridad',
+  estado: 'estado',
+  creado: 'creado',
+  update: 'update',
+  usuarioId: 'usuarioId',
+  categoriaId: 'categoriaId'
+} as const
+
+export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+export const ComentarioScalarFieldEnum = {
+  id: 'id',
+  creado: 'creado',
+  usuarioId: 'usuarioId',
+  ticketId: 'ticketId'
+} as const
+
+export type ComentarioScalarFieldEnum = (typeof ComentarioScalarFieldEnum)[keyof typeof ComentarioScalarFieldEnum]
+
+
+export const NotificacionScalarFieldEnum = {
+  id: 'id',
+  reporte: 'reporte',
+  mensaje: 'mensaje',
+  tipo: 'tipo',
+  creado: 'creado'
+} as const
+
+export type NotificacionScalarFieldEnum = (typeof NotificacionScalarFieldEnum)[keyof typeof NotificacionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -97,4 +147,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
