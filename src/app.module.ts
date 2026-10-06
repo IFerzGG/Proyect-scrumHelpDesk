@@ -31,6 +31,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'scrum-proyect',
     }),
     PrismaModule,
+    CategoriasModule,
     AuthModule,
     UsersModule,
   ],
