@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto.js';
+import { Role } from '../generated/prisma/enums.js';
 
 @Injectable()
 export class UsersService {
@@ -22,8 +23,11 @@ export class UsersService {
         });
     }
 
-    async findAll(){
+    async findAll(role?:Role){
         return await this.prisma.user.findMany({
+            where:role
+                ?{role}
+                :undefined,
             orderBy:{id:'asc'},
             select:{
                 nombre:true,

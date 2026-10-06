@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 import { UsersService } from './users.service.js';
@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Publico } from '../auth/decorators/publico.decorator.js';
+import { Role } from '../generated/prisma/enums.js';
 
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
@@ -16,8 +17,8 @@ export class UsersController {
     @Get()
     @ApiOperation({summary:'Revisar Todos los Usuarios'})
     @ApiResponse({status:200, description:'Usuarios Mostrados Exitosamente'})
-    findAll(){
-        return this.userService.findAll();
+    findAll(@Query('roleUsuario') roleUsuario?:Role){
+        return this.userService.findAll(roleUsuario);
     }
 
     @Get(':id')
