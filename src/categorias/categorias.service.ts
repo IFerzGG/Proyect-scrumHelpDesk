@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { CreateCategoriaDto } from './dto/create-categoria.dto.js';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto.js';
-import { PrismaClient } from '../generated/prisma/client.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 
 @Injectable()
 export class CategoriasService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaService) {}
   async findCategoriaByName(nombre: string) {
-    return await this.prisma.categorias.findFirst({
+    return await this.prisma.categoria.findFirst({
       where: {
         nombre: {
           equals: nombre,
@@ -26,7 +26,7 @@ export class CategoriasService {
     if (existe) {
       throw new ConflictException('Ya existe una categoria con ese nombre');
     }
-    return await this.prisma.categorias.create({
+    return await this.prisma.categoria.create({
       data: {
         nombre: createCategoriaDto.nombre,
       },
@@ -34,11 +34,11 @@ export class CategoriasService {
   }
 
   async findAllCategorias() {
-    return await this.prisma.categorias.findMany({ orderBy: { id: 'asc' } });
+    return await this.prisma.categoria.findMany({ orderBy: { id: 'asc' } });
   }
 
   async updateCategoria(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return await this.prisma.categorias.update({
+    return await this.prisma.categoria.update({
       where: { id },
       data: updateCategoriaDto,
     });
@@ -61,7 +61,7 @@ export class CategoriasService {
   }
 
   async findOneCategoria(id: number) {
-    const categoria = await this.prisma.categorias.findUnique({
+    const categoria = await this.prisma.categoria.findUnique({
       where: { id },
     });
     if (!categoria) {
@@ -71,13 +71,13 @@ export class CategoriasService {
   }
 
   async removeCategoria(id: number) {
-    const categoria = await this.prisma.categorias.findUnique({
+    const categoria = await this.prisma.categoria.findUnique({
       where: { id },
     });
     if (!categoria) {
       throw new NotFoundException(`categoria de ID: ${id} no encontrada`);
     }
-    return await this.prisma.categorias.delete({
+    return await this.prisma.categoria.delete({
       where: { id },
     });
   }

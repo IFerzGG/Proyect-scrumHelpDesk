@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module.js';
 import { PrismaService } from './prisma/prisma.service.js';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
+import { CategoriasModule } from './categorias/categorias.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 

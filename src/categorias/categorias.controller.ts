@@ -13,25 +13,21 @@ import { CategoriasService } from './categorias.service.js';
 import { CreateCategoriaDto } from './dto/create-categoria.dto.js';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto.js';
 import {
-  ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-//import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
-//import { RolesGuard } from '../auth/guards/roles.guard.js';
-//import { Role } from '../generated/prisma/enums.js';
-//import { Roles } from '../auth/decorators/roles.decorator.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @ApiTags('Categorias')
+@UseGuards(RolesGuard)
+@Roles('ADMIN','AGENTE')
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN,Role.AGENTE)
-  //@ApiBearerAuth()
   @ApiOperation({
     summary: 'Crear una nueva categoría',
     description: 'Crear una nueva categoría.',
@@ -90,9 +86,6 @@ export class CategoriasController {
     return this.categoriasService.findOneCategoria(+id);
   }
 
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN,Role.AGENTE)
-  //@ApiBearerAuth()
   @ApiOperation({
     summary: 'Modifica una categoría',
     description: 'Modifica una categoría con su ID.',
@@ -121,9 +114,7 @@ export class CategoriasController {
     return this.categoriasService.updateCategoria(+id, updateCategoriaDto);
   }
 
-  //@ApiBearerAuth()
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN, Role.AGENTE)
+
   @ApiOperation({
     summary: 'Elimina una categoría',
     description: 'Elimina una categoría con su ID.',
