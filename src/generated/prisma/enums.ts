@@ -16,3 +16,23 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const EstadoTicket = {
+  ABIERTO: 'ABIERTO',
+  ENPROCESO: 'ENPROCESO',
+  CERRADO: 'CERRADO',
+  RESUELTO: 'RESUELTO'
+} as const
+
+export type EstadoTicket = (typeof EstadoTicket)[keyof typeof EstadoTicket]
+
+
+export const Prioridad = {
+  CRITICO: 'CRITICO',
+  ALTA: 'ALTA',
+  MEDIA: 'MEDIA',
+  BAJA: 'BAJA'
+} as const
+
+export type Prioridad = (typeof Prioridad)[keyof typeof Prioridad]

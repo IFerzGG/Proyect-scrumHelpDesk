@@ -19,6 +19,20 @@ enum Role {
   EMPLEADO
 }
 
+enum EstadoTicket {
+  ABIERTO
+  ENPROCESO
+  CERRADO
+  RESUELTO
+}
+
+enum Prioridad {
+  CRITICO
+  ALTA
+  MEDIA
+  BAJA
+}
+
 model User {
   id Int @id @default(autoincrement())
   nombre String
@@ -26,7 +40,57 @@ model User {
   email String @unique
   password String
   role Role @default(EMPLEADO)
-  ceado DateTime @default(now())
+  creado DateTime @default(now())
+  tickets Ticket[]
+  comentarios Comentario[]
 
   @@map("users")
+}
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nombre String 
+  descripcion String?
+  creado DateTime @default(now())
+  tickets Ticket[]
+
+  @@map("categorias")
+}
+
+model Ticket {
+  id Int @id @default(autoincrement())
+  titulo String
+  descripcion String?
+  prioridad Prioridad
+  estado EstadoTicket @default(ABIERTO)
+  creado DateTime @default(now())
+  update DateTime?
+  usuarioId Int @map("usuario_id")
+  categoriaId Int @map("categoria_id")
+  comentarios Comentario[]
+
+  usuario User @relation(fields: [usuarioId], references: [id])
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+  @@map("tickets")
+}
+
+model Comentario {
+  id Int @id @default(autoincrement())
+  creado DateTime @default(now())
+  usuarioId Int @map("usuario_id")
+  ticketId Int @map("ticket_id")
+  
+  usuario User @relation(fields: [usuarioId], references: [id])
+  ticket Ticket @relation(fields: [ticketId], references: [id])
+  @@map("comentarios")
+}
+
+model Notificacion {
+  id Int @id @default(autoincrement())
+  reporte String
+  mensaje String
+  tipo Prioridad
+  creado DateTime @default(now())
+
+  @@map("notificaciones")
 }
