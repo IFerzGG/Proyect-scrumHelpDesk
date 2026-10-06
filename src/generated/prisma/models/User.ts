@@ -234,6 +234,7 @@ export type UserWhereInput = {
   creado?: Prisma.DateTimeFilter<"User"> | Date | string
   tickets?: Prisma.TicketListRelationFilter
   comentarios?: Prisma.ComentarioListRelationFilter
+  notificaciones?: Prisma.NotificacionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -246,6 +247,7 @@ export type UserOrderByWithRelationInput = {
   creado?: Prisma.SortOrder
   tickets?: Prisma.TicketOrderByRelationAggregateInput
   comentarios?: Prisma.ComentarioOrderByRelationAggregateInput
+  notificaciones?: Prisma.NotificacionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -261,6 +263,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   creado?: Prisma.DateTimeFilter<"User"> | Date | string
   tickets?: Prisma.TicketListRelationFilter
   comentarios?: Prisma.ComentarioListRelationFilter
+  notificaciones?: Prisma.NotificacionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -300,6 +303,7 @@ export type UserCreateInput = {
   creado?: Date | string
   tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -312,6 +316,7 @@ export type UserUncheckedCreateInput = {
   creado?: Date | string
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserUpdateInput = {
@@ -323,6 +328,7 @@ export type UserUpdateInput = {
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -335,6 +341,7 @@ export type UserUncheckedUpdateInput = {
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -457,6 +464,20 @@ export type UserUpdateOneRequiredWithoutComentariosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutComentariosInput, Prisma.UserUpdateWithoutComentariosInput>, Prisma.UserUncheckedUpdateWithoutComentariosInput>
 }
 
+export type UserCreateNestedOneWithoutNotificacionesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificacionesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificacionesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificacionesInput
+  upsert?: Prisma.UserUpsertWithoutNotificacionesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificacionesInput, Prisma.UserUpdateWithoutNotificacionesInput>, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+}
+
 export type UserCreateWithoutTicketsInput = {
   nombre: string
   apellido: string
@@ -465,6 +486,7 @@ export type UserCreateWithoutTicketsInput = {
   role?: $Enums.Role
   creado?: Date | string
   comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserUncheckedCreateWithoutTicketsInput = {
@@ -476,6 +498,7 @@ export type UserUncheckedCreateWithoutTicketsInput = {
   role?: $Enums.Role
   creado?: Date | string
   comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserCreateOrConnectWithoutTicketsInput = {
@@ -502,6 +525,7 @@ export type UserUpdateWithoutTicketsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketsInput = {
@@ -513,6 +537,7 @@ export type UserUncheckedUpdateWithoutTicketsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UserCreateWithoutComentariosInput = {
@@ -523,6 +548,7 @@ export type UserCreateWithoutComentariosInput = {
   role?: $Enums.Role
   creado?: Date | string
   tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserUncheckedCreateWithoutComentariosInput = {
@@ -534,6 +560,7 @@ export type UserUncheckedCreateWithoutComentariosInput = {
   role?: $Enums.Role
   creado?: Date | string
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UserCreateOrConnectWithoutComentariosInput = {
@@ -560,6 +587,7 @@ export type UserUpdateWithoutComentariosInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UserUncheckedUpdateWithoutComentariosInput = {
@@ -571,6 +599,69 @@ export type UserUncheckedUpdateWithoutComentariosInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UserCreateWithoutNotificacionesInput = {
+  nombre: string
+  apellido: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  creado?: Date | string
+  tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
+  comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
+}
+
+export type UserUncheckedCreateWithoutNotificacionesInput = {
+  id?: number
+  nombre: string
+  apellido: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  creado?: Date | string
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UserCreateOrConnectWithoutNotificacionesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+}
+
+export type UserUpsertWithoutNotificacionesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificacionesInput, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificacionesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificacionesInput, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+}
+
+export type UserUpdateWithoutNotificacionesInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
+  comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificacionesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 
@@ -581,11 +672,13 @@ export type UserUncheckedUpdateWithoutComentariosInput = {
 export type UserCountOutputType = {
   tickets: number
   comentarios: number
+  notificaciones: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tickets?: boolean | UserCountOutputTypeCountTicketsArgs
   comentarios?: boolean | UserCountOutputTypeCountComentariosArgs
+  notificaciones?: boolean | UserCountOutputTypeCountNotificacionesArgs
 }
 
 /**
@@ -612,6 +705,13 @@ export type UserCountOutputTypeCountComentariosArgs<ExtArgs extends runtime.Type
   where?: Prisma.ComentarioWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificacionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificacionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -623,6 +723,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   creado?: boolean
   tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
   comentarios?: boolean | Prisma.User$comentariosArgs<ExtArgs>
+  notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -660,6 +761,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
   comentarios?: boolean | Prisma.User$comentariosArgs<ExtArgs>
+  notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -670,6 +772,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     tickets: Prisma.$TicketPayload<ExtArgs>[]
     comentarios: Prisma.$ComentarioPayload<ExtArgs>[]
+    notificaciones: Prisma.$NotificacionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1075,6 +1178,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tickets<T extends Prisma.User$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comentarios<T extends Prisma.User$comentariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$comentariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ComentarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificaciones<T extends Prisma.User$notificacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1549,6 +1653,30 @@ export type User$comentariosArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ComentarioScalarFieldEnum | Prisma.ComentarioScalarFieldEnum[]
+}
+
+/**
+ * User.notificaciones
+ */
+export type User$notificacionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notificacion
+   */
+  select?: Prisma.NotificacionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notificacion
+   */
+  omit?: Prisma.NotificacionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificacionInclude<ExtArgs> | null
+  where?: Prisma.NotificacionWhereInput
+  orderBy?: Prisma.NotificacionOrderByWithRelationInput | Prisma.NotificacionOrderByWithRelationInput[]
+  cursor?: Prisma.NotificacionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificacionScalarFieldEnum | Prisma.NotificacionScalarFieldEnum[]
 }
 
 /**

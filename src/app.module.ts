@@ -10,18 +10,19 @@ import { UsersModule } from './users/users.module.js';
 import { PrismaService } from './prisma/prisma.service.js';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
+import { CategoriasModule } from './categorias/categorias.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
-      validationSchema:envValidationSchema,
-      validationOptions:{
-        libraryOptions:{
-          abortEarly:false,
-          allowUnknown:true,
+      isGlobal: true,
+      validationSchema: envValidationSchema,
+      validationOptions: {
+        libraryOptions: {
+          abortEarly: false,
+          allowUnknown: true,
         },
       },
     }),
@@ -36,6 +37,11 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService,PrismaService, {provide:APP_GUARD, useClass:JwtAuthGuard}],
+  providers: [
+    AppService,
+    PrismaService,
+
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+  ],
 })
 export class AppModule {}

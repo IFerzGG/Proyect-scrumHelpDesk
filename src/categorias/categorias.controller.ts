@@ -19,19 +19,18 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-//import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
-//import { RolesGuard } from '../auth/guards/roles.guard.js';
-//import { Role } from '../generated/prisma/enums.js';
-//import { Roles } from '../auth/decorators/roles.decorator.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @ApiTags('Categorias')
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN,Role.AGENTE)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'AGENTE')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Crear una nueva categoría',
     description: 'Crear una nueva categoría.',
@@ -60,7 +59,7 @@ export class CategoriasController {
   @ApiQuery({
     name: 'nombre',
     required: true,
-    example: 'Elect',
+    example: 'Hardware',
     description: 'Buscar articulos por categoria por nombre',
   })
   @Get('buscar')
@@ -90,9 +89,9 @@ export class CategoriasController {
     return this.categoriasService.findOneCategoria(+id);
   }
 
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN,Role.AGENTE)
-  //@ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'AGENTE')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Modifica una categoría',
     description: 'Modifica una categoría con su ID.',
@@ -121,9 +120,9 @@ export class CategoriasController {
     return this.categoriasService.updateCategoria(+id, updateCategoriaDto);
   }
 
-  //@ApiBearerAuth()
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles(Role.ADMIN, Role.AGENTE)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN', 'AGENTE')
   @ApiOperation({
     summary: 'Elimina una categoría',
     description: 'Elimina una categoría con su ID.',

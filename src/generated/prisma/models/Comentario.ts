@@ -40,6 +40,7 @@ export type ComentarioSumAggregateOutputType = {
 
 export type ComentarioMinAggregateOutputType = {
   id: number | null
+  comentario: string | null
   creado: Date | null
   usuarioId: number | null
   ticketId: number | null
@@ -47,6 +48,7 @@ export type ComentarioMinAggregateOutputType = {
 
 export type ComentarioMaxAggregateOutputType = {
   id: number | null
+  comentario: string | null
   creado: Date | null
   usuarioId: number | null
   ticketId: number | null
@@ -54,6 +56,7 @@ export type ComentarioMaxAggregateOutputType = {
 
 export type ComentarioCountAggregateOutputType = {
   id: number
+  comentario: number
   creado: number
   usuarioId: number
   ticketId: number
@@ -75,6 +78,7 @@ export type ComentarioSumAggregateInputType = {
 
 export type ComentarioMinAggregateInputType = {
   id?: true
+  comentario?: true
   creado?: true
   usuarioId?: true
   ticketId?: true
@@ -82,6 +86,7 @@ export type ComentarioMinAggregateInputType = {
 
 export type ComentarioMaxAggregateInputType = {
   id?: true
+  comentario?: true
   creado?: true
   usuarioId?: true
   ticketId?: true
@@ -89,6 +94,7 @@ export type ComentarioMaxAggregateInputType = {
 
 export type ComentarioCountAggregateInputType = {
   id?: true
+  comentario?: true
   creado?: true
   usuarioId?: true
   ticketId?: true
@@ -183,6 +189,7 @@ export type ComentarioGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type ComentarioGroupByOutputType = {
   id: number
+  comentario: string
   creado: Date
   usuarioId: number
   ticketId: number
@@ -213,6 +220,7 @@ export type ComentarioWhereInput = {
   OR?: Prisma.ComentarioWhereInput[]
   NOT?: Prisma.ComentarioWhereInput | Prisma.ComentarioWhereInput[]
   id?: Prisma.IntFilter<"Comentario"> | number
+  comentario?: Prisma.StringFilter<"Comentario"> | string
   creado?: Prisma.DateTimeFilter<"Comentario"> | Date | string
   usuarioId?: Prisma.IntFilter<"Comentario"> | number
   ticketId?: Prisma.IntFilter<"Comentario"> | number
@@ -222,6 +230,7 @@ export type ComentarioWhereInput = {
 
 export type ComentarioOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  comentario?: Prisma.SortOrder
   creado?: Prisma.SortOrder
   usuarioId?: Prisma.SortOrder
   ticketId?: Prisma.SortOrder
@@ -234,6 +243,7 @@ export type ComentarioWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ComentarioWhereInput | Prisma.ComentarioWhereInput[]
   OR?: Prisma.ComentarioWhereInput[]
   NOT?: Prisma.ComentarioWhereInput | Prisma.ComentarioWhereInput[]
+  comentario?: Prisma.StringFilter<"Comentario"> | string
   creado?: Prisma.DateTimeFilter<"Comentario"> | Date | string
   usuarioId?: Prisma.IntFilter<"Comentario"> | number
   ticketId?: Prisma.IntFilter<"Comentario"> | number
@@ -243,6 +253,7 @@ export type ComentarioWhereUniqueInput = Prisma.AtLeast<{
 
 export type ComentarioOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  comentario?: Prisma.SortOrder
   creado?: Prisma.SortOrder
   usuarioId?: Prisma.SortOrder
   ticketId?: Prisma.SortOrder
@@ -258,12 +269,14 @@ export type ComentarioScalarWhereWithAggregatesInput = {
   OR?: Prisma.ComentarioScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ComentarioScalarWhereWithAggregatesInput | Prisma.ComentarioScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Comentario"> | number
+  comentario?: Prisma.StringWithAggregatesFilter<"Comentario"> | string
   creado?: Prisma.DateTimeWithAggregatesFilter<"Comentario"> | Date | string
   usuarioId?: Prisma.IntWithAggregatesFilter<"Comentario"> | number
   ticketId?: Prisma.IntWithAggregatesFilter<"Comentario"> | number
 }
 
 export type ComentarioCreateInput = {
+  comentario: string
   creado?: Date | string
   usuario: Prisma.UserCreateNestedOneWithoutComentariosInput
   ticket: Prisma.TicketCreateNestedOneWithoutComentariosInput
@@ -271,12 +284,14 @@ export type ComentarioCreateInput = {
 
 export type ComentarioUncheckedCreateInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   usuarioId: number
   ticketId: number
 }
 
 export type ComentarioUpdateInput = {
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuario?: Prisma.UserUpdateOneRequiredWithoutComentariosNestedInput
   ticket?: Prisma.TicketUpdateOneRequiredWithoutComentariosNestedInput
@@ -284,6 +299,7 @@ export type ComentarioUpdateInput = {
 
 export type ComentarioUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuarioId?: Prisma.IntFieldUpdateOperationsInput | number
   ticketId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -291,17 +307,20 @@ export type ComentarioUncheckedUpdateInput = {
 
 export type ComentarioCreateManyInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   usuarioId: number
   ticketId: number
 }
 
 export type ComentarioUpdateManyMutationInput = {
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ComentarioUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuarioId?: Prisma.IntFieldUpdateOperationsInput | number
   ticketId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -319,6 +338,7 @@ export type ComentarioOrderByRelationAggregateInput = {
 
 export type ComentarioCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  comentario?: Prisma.SortOrder
   creado?: Prisma.SortOrder
   usuarioId?: Prisma.SortOrder
   ticketId?: Prisma.SortOrder
@@ -332,6 +352,7 @@ export type ComentarioAvgOrderByAggregateInput = {
 
 export type ComentarioMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  comentario?: Prisma.SortOrder
   creado?: Prisma.SortOrder
   usuarioId?: Prisma.SortOrder
   ticketId?: Prisma.SortOrder
@@ -339,6 +360,7 @@ export type ComentarioMaxOrderByAggregateInput = {
 
 export type ComentarioMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  comentario?: Prisma.SortOrder
   creado?: Prisma.SortOrder
   usuarioId?: Prisma.SortOrder
   ticketId?: Prisma.SortOrder
@@ -435,12 +457,14 @@ export type ComentarioUncheckedUpdateManyWithoutTicketNestedInput = {
 }
 
 export type ComentarioCreateWithoutUsuarioInput = {
+  comentario: string
   creado?: Date | string
   ticket: Prisma.TicketCreateNestedOneWithoutComentariosInput
 }
 
 export type ComentarioUncheckedCreateWithoutUsuarioInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   ticketId: number
 }
@@ -476,18 +500,21 @@ export type ComentarioScalarWhereInput = {
   OR?: Prisma.ComentarioScalarWhereInput[]
   NOT?: Prisma.ComentarioScalarWhereInput | Prisma.ComentarioScalarWhereInput[]
   id?: Prisma.IntFilter<"Comentario"> | number
+  comentario?: Prisma.StringFilter<"Comentario"> | string
   creado?: Prisma.DateTimeFilter<"Comentario"> | Date | string
   usuarioId?: Prisma.IntFilter<"Comentario"> | number
   ticketId?: Prisma.IntFilter<"Comentario"> | number
 }
 
 export type ComentarioCreateWithoutTicketInput = {
+  comentario: string
   creado?: Date | string
   usuario: Prisma.UserCreateNestedOneWithoutComentariosInput
 }
 
 export type ComentarioUncheckedCreateWithoutTicketInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   usuarioId: number
 }
@@ -520,46 +547,54 @@ export type ComentarioUpdateManyWithWhereWithoutTicketInput = {
 
 export type ComentarioCreateManyUsuarioInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   ticketId: number
 }
 
 export type ComentarioUpdateWithoutUsuarioInput = {
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ticket?: Prisma.TicketUpdateOneRequiredWithoutComentariosNestedInput
 }
 
 export type ComentarioUncheckedUpdateWithoutUsuarioInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ticketId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ComentarioUncheckedUpdateManyWithoutUsuarioInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ticketId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ComentarioCreateManyTicketInput = {
   id?: number
+  comentario: string
   creado?: Date | string
   usuarioId: number
 }
 
 export type ComentarioUpdateWithoutTicketInput = {
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuario?: Prisma.UserUpdateOneRequiredWithoutComentariosNestedInput
 }
 
 export type ComentarioUncheckedUpdateWithoutTicketInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuarioId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ComentarioUncheckedUpdateManyWithoutTicketInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  comentario?: Prisma.StringFieldUpdateOperationsInput | string
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usuarioId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -568,6 +603,7 @@ export type ComentarioUncheckedUpdateManyWithoutTicketInput = {
 
 export type ComentarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  comentario?: boolean
   creado?: boolean
   usuarioId?: boolean
   ticketId?: boolean
@@ -577,6 +613,7 @@ export type ComentarioSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ComentarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  comentario?: boolean
   creado?: boolean
   usuarioId?: boolean
   ticketId?: boolean
@@ -586,6 +623,7 @@ export type ComentarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type ComentarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  comentario?: boolean
   creado?: boolean
   usuarioId?: boolean
   ticketId?: boolean
@@ -595,12 +633,13 @@ export type ComentarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type ComentarioSelectScalar = {
   id?: boolean
+  comentario?: boolean
   creado?: boolean
   usuarioId?: boolean
   ticketId?: boolean
 }
 
-export type ComentarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creado" | "usuarioId" | "ticketId", ExtArgs["result"]["comentario"]>
+export type ComentarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "comentario" | "creado" | "usuarioId" | "ticketId", ExtArgs["result"]["comentario"]>
 export type ComentarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   usuario?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
@@ -622,6 +661,7 @@ export type $ComentarioPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    comentario: string
     creado: Date
     usuarioId: number
     ticketId: number
@@ -1051,6 +1091,7 @@ export interface Prisma__ComentarioClient<T, Null = never, ExtArgs extends runti
  */
 export interface ComentarioFieldRefs {
   readonly id: Prisma.FieldRef<"Comentario", 'Int'>
+  readonly comentario: Prisma.FieldRef<"Comentario", 'String'>
   readonly creado: Prisma.FieldRef<"Comentario", 'DateTime'>
   readonly usuarioId: Prisma.FieldRef<"Comentario", 'Int'>
   readonly ticketId: Prisma.FieldRef<"Comentario", 'Int'>
