@@ -5,6 +5,7 @@ import { AppService } from './app.service.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { envValidationSchema } from './config/env.validation.js';
+import { CategoriasModule } from './categorias/categorias.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -26,6 +27,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'scrum-proyect',
     }),
     PrismaModule,
+    CategoriasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
