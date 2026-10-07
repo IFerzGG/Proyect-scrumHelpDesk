@@ -67,12 +67,12 @@ model Ticket {
   estado EstadoTicket @default(ABIERTO)
   creado DateTime @default(now())
   update DateTime?
-  agenteId Int @map("agente_id")
+  agenteId Int? @map("agente_id")
   usuarioId Int @map("usuario_id")
   categoriaId Int @map("categoria_id")
   comentarios Comentario[]
 
-  agente User @relation("TicketAgente", fields: [agenteId], references: [id])
+  agente User? @relation("TicketAgente", fields: [agenteId], references: [id])
   usuario User @relation("TicketUsuario",fields: [usuarioId], references: [id])
   categoria Categoria @relation(fields: [categoriaId], references: [id])
   @@map("tickets")

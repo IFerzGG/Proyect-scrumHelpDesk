@@ -418,6 +418,11 @@ export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
@@ -455,10 +460,12 @@ export type UserCreateNestedOneWithoutTicketsUsuarioInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutTicketsAgenteNestedInput = {
+export type UserUpdateOneWithoutTicketsAgenteNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsAgenteInput, Prisma.UserUncheckedCreateWithoutTicketsAgenteInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsAgenteInput
   upsert?: Prisma.UserUpsertWithoutTicketsAgenteInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsAgenteInput, Prisma.UserUpdateWithoutTicketsAgenteInput>, Prisma.UserUncheckedUpdateWithoutTicketsAgenteInput>
 }
