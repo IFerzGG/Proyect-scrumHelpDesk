@@ -11,6 +11,7 @@ import { PrismaService } from './prisma/prisma.service.js';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
 import { CategoriasModule } from './categorias/categorias.module.js';
+import { TicketModule } from './ticket/ticket.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -35,6 +36,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     CategoriasModule,
     AuthModule,
     UsersModule,
+    TicketModule
   ],
   controllers: [AppController],
   providers: [AppService,PrismaService, {provide:APP_GUARD, useClass:JwtAuthGuard}],
