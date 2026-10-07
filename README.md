@@ -1,7 +1,15 @@
-**USO DECORADORES Y GUARDS**
-*@Public:* Se utiliza cuando el endpoint puede ser accedido por cualquier persona, sin necesidad de autenticación.
-*@UseGuards(RolesGuard):* Se utiliza para activar el RolesGuard en el endpoint.
-*@Roles:* Se utiliza para asignar qué roles tienen permiso para acceder al endpoint.
+# 📚 Documentación del proyecto
+
+## 🔐 Uso de Decoradores y Guards
+
+Estos decoradores permiten controlar el acceso a los diferentes endpoints de la aplicación.
+
+| Decorador | Descripción |
+|---|---|
+| `@Public()` | Permite acceder al endpoint sin necesidad de autenticación. |
+| `@UseGuards(RolesGuard)` | Activa el `RolesGuard` para proteger el endpoint mediante roles. |
+| `@Roles()` | Define qué roles tienen permiso para acceder al endpoint. |
+
 
 **NUESTRAS RAMAS Y TABLAS QUE CORRESPONDEN**
 

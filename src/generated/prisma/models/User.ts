@@ -232,7 +232,8 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   creado?: Prisma.DateTimeFilter<"User"> | Date | string
-  tickets?: Prisma.TicketListRelationFilter
+  ticketsAgente?: Prisma.TicketListRelationFilter
+  ticketsUsuario?: Prisma.TicketListRelationFilter
   comentarios?: Prisma.ComentarioListRelationFilter
   notificaciones?: Prisma.NotificacionListRelationFilter
 }
@@ -245,7 +246,8 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   creado?: Prisma.SortOrder
-  tickets?: Prisma.TicketOrderByRelationAggregateInput
+  ticketsAgente?: Prisma.TicketOrderByRelationAggregateInput
+  ticketsUsuario?: Prisma.TicketOrderByRelationAggregateInput
   comentarios?: Prisma.ComentarioOrderByRelationAggregateInput
   notificaciones?: Prisma.NotificacionOrderByRelationAggregateInput
 }
@@ -261,7 +263,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   creado?: Prisma.DateTimeFilter<"User"> | Date | string
-  tickets?: Prisma.TicketListRelationFilter
+  ticketsAgente?: Prisma.TicketListRelationFilter
+  ticketsUsuario?: Prisma.TicketListRelationFilter
   comentarios?: Prisma.ComentarioListRelationFilter
   notificaciones?: Prisma.NotificacionListRelationFilter
 }, "id" | "email">
@@ -301,7 +304,8 @@ export type UserCreateInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
@@ -314,7 +318,8 @@ export type UserUncheckedCreateInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketUncheckedCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
@@ -326,7 +331,8 @@ export type UserUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
@@ -339,7 +345,8 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUncheckedUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
 }
@@ -411,6 +418,11 @@ export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
@@ -436,18 +448,34 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type UserCreateNestedOneWithoutTicketsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsInput
+export type UserCreateNestedOneWithoutTicketsAgenteInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsAgenteInput, Prisma.UserUncheckedCreateWithoutTicketsAgenteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsAgenteInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutTicketsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsInput
-  upsert?: Prisma.UserUpsertWithoutTicketsInput
+export type UserCreateNestedOneWithoutTicketsUsuarioInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsUsuarioInput, Prisma.UserUncheckedCreateWithoutTicketsUsuarioInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsUsuarioInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsInput, Prisma.UserUpdateWithoutTicketsInput>, Prisma.UserUncheckedUpdateWithoutTicketsInput>
+}
+
+export type UserUpdateOneWithoutTicketsAgenteNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsAgenteInput, Prisma.UserUncheckedCreateWithoutTicketsAgenteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsAgenteInput
+  upsert?: Prisma.UserUpsertWithoutTicketsAgenteInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsAgenteInput, Prisma.UserUpdateWithoutTicketsAgenteInput>, Prisma.UserUncheckedUpdateWithoutTicketsAgenteInput>
+}
+
+export type UserUpdateOneRequiredWithoutTicketsUsuarioNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsUsuarioInput, Prisma.UserUncheckedCreateWithoutTicketsUsuarioInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsUsuarioInput
+  upsert?: Prisma.UserUpsertWithoutTicketsUsuarioInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsUsuarioInput, Prisma.UserUpdateWithoutTicketsUsuarioInput>, Prisma.UserUncheckedUpdateWithoutTicketsUsuarioInput>
 }
 
 export type UserCreateNestedOneWithoutComentariosInput = {
@@ -478,18 +506,19 @@ export type UserUpdateOneRequiredWithoutNotificacionesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificacionesInput, Prisma.UserUpdateWithoutNotificacionesInput>, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
 }
 
-export type UserCreateWithoutTicketsInput = {
+export type UserCreateWithoutTicketsAgenteInput = {
   nombre: string
   apellido: string
   email: string
   password: string
   role?: $Enums.Role
   creado?: Date | string
+  ticketsUsuario?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
 
-export type UserUncheckedCreateWithoutTicketsInput = {
+export type UserUncheckedCreateWithoutTicketsAgenteInput = {
   id?: number
   nombre: string
   apellido: string
@@ -497,38 +526,70 @@ export type UserUncheckedCreateWithoutTicketsInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
+  ticketsUsuario?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
-export type UserCreateOrConnectWithoutTicketsInput = {
+export type UserCreateOrConnectWithoutTicketsAgenteInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsAgenteInput, Prisma.UserUncheckedCreateWithoutTicketsAgenteInput>
 }
 
-export type UserUpsertWithoutTicketsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTicketsInput, Prisma.UserUncheckedUpdateWithoutTicketsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
+export type UserCreateWithoutTicketsUsuarioInput = {
+  nombre: string
+  apellido: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  creado?: Date | string
+  ticketsAgente?: Prisma.TicketCreateNestedManyWithoutAgenteInput
+  comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
+}
+
+export type UserUncheckedCreateWithoutTicketsUsuarioInput = {
+  id?: number
+  nombre: string
+  apellido: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  creado?: Date | string
+  ticketsAgente?: Prisma.TicketUncheckedCreateNestedManyWithoutAgenteInput
+  comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UserCreateOrConnectWithoutTicketsUsuarioInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsUsuarioInput, Prisma.UserUncheckedCreateWithoutTicketsUsuarioInput>
+}
+
+export type UserUpsertWithoutTicketsAgenteInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTicketsAgenteInput, Prisma.UserUncheckedUpdateWithoutTicketsAgenteInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsAgenteInput, Prisma.UserUncheckedCreateWithoutTicketsAgenteInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutTicketsInput = {
+export type UserUpdateToOneWithWhereWithoutTicketsAgenteInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTicketsInput, Prisma.UserUncheckedUpdateWithoutTicketsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTicketsAgenteInput, Prisma.UserUncheckedUpdateWithoutTicketsAgenteInput>
 }
 
-export type UserUpdateWithoutTicketsInput = {
+export type UserUpdateWithoutTicketsAgenteInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   apellido?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ticketsUsuario?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
 
-export type UserUncheckedUpdateWithoutTicketsInput = {
+export type UserUncheckedUpdateWithoutTicketsAgenteInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   apellido?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,6 +597,43 @@ export type UserUncheckedUpdateWithoutTicketsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ticketsUsuario?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UserUpsertWithoutTicketsUsuarioInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTicketsUsuarioInput, Prisma.UserUncheckedUpdateWithoutTicketsUsuarioInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsUsuarioInput, Prisma.UserUncheckedCreateWithoutTicketsUsuarioInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTicketsUsuarioInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTicketsUsuarioInput, Prisma.UserUncheckedUpdateWithoutTicketsUsuarioInput>
+}
+
+export type UserUpdateWithoutTicketsUsuarioInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ticketsAgente?: Prisma.TicketUpdateManyWithoutAgenteNestedInput
+  comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTicketsUsuarioInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ticketsAgente?: Prisma.TicketUncheckedUpdateManyWithoutAgenteNestedInput
   comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
 }
@@ -547,7 +645,8 @@ export type UserCreateWithoutComentariosInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUsuarioInput
 }
 
@@ -559,7 +658,8 @@ export type UserUncheckedCreateWithoutComentariosInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketUncheckedCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
   notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
@@ -586,7 +686,8 @@ export type UserUpdateWithoutComentariosInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -598,7 +699,8 @@ export type UserUncheckedUpdateWithoutComentariosInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUncheckedUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
   notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -609,7 +711,8 @@ export type UserCreateWithoutNotificacionesInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioCreateNestedManyWithoutUsuarioInput
 }
 
@@ -621,7 +724,8 @@ export type UserUncheckedCreateWithoutNotificacionesInput = {
   password: string
   role?: $Enums.Role
   creado?: Date | string
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  ticketsAgente?: Prisma.TicketUncheckedCreateNestedManyWithoutAgenteInput
+  ticketsUsuario?: Prisma.TicketUncheckedCreateNestedManyWithoutUsuarioInput
   comentarios?: Prisma.ComentarioUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
@@ -648,7 +752,8 @@ export type UserUpdateWithoutNotificacionesInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -660,7 +765,8 @@ export type UserUncheckedUpdateWithoutNotificacionesInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   creado?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  ticketsAgente?: Prisma.TicketUncheckedUpdateManyWithoutAgenteNestedInput
+  ticketsUsuario?: Prisma.TicketUncheckedUpdateManyWithoutUsuarioNestedInput
   comentarios?: Prisma.ComentarioUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -670,13 +776,15 @@ export type UserUncheckedUpdateWithoutNotificacionesInput = {
  */
 
 export type UserCountOutputType = {
-  tickets: number
+  ticketsAgente: number
+  ticketsUsuario: number
   comentarios: number
   notificaciones: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tickets?: boolean | UserCountOutputTypeCountTicketsArgs
+  ticketsAgente?: boolean | UserCountOutputTypeCountTicketsAgenteArgs
+  ticketsUsuario?: boolean | UserCountOutputTypeCountTicketsUsuarioArgs
   comentarios?: boolean | UserCountOutputTypeCountComentariosArgs
   notificaciones?: boolean | UserCountOutputTypeCountNotificacionesArgs
 }
@@ -694,7 +802,14 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountTicketsAgenteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TicketWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTicketsUsuarioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TicketWhereInput
 }
 
@@ -721,7 +836,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   role?: boolean
   creado?: boolean
-  tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
+  ticketsAgente?: boolean | Prisma.User$ticketsAgenteArgs<ExtArgs>
+  ticketsUsuario?: boolean | Prisma.User$ticketsUsuarioArgs<ExtArgs>
   comentarios?: boolean | Prisma.User$comentariosArgs<ExtArgs>
   notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -759,7 +875,8 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "apellido" | "email" | "password" | "role" | "creado", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
+  ticketsAgente?: boolean | Prisma.User$ticketsAgenteArgs<ExtArgs>
+  ticketsUsuario?: boolean | Prisma.User$ticketsUsuarioArgs<ExtArgs>
   comentarios?: boolean | Prisma.User$comentariosArgs<ExtArgs>
   notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -770,7 +887,8 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    tickets: Prisma.$TicketPayload<ExtArgs>[]
+    ticketsAgente: Prisma.$TicketPayload<ExtArgs>[]
+    ticketsUsuario: Prisma.$TicketPayload<ExtArgs>[]
     comentarios: Prisma.$ComentarioPayload<ExtArgs>[]
     notificaciones: Prisma.$NotificacionPayload<ExtArgs>[]
   }
@@ -1176,7 +1294,8 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tickets<T extends Prisma.User$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ticketsAgente<T extends Prisma.User$ticketsAgenteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsAgenteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ticketsUsuario<T extends Prisma.User$ticketsUsuarioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsUsuarioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comentarios<T extends Prisma.User$comentariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$comentariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ComentarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notificaciones<T extends Prisma.User$notificacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1608,9 +1727,33 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.tickets
+ * User.ticketsAgente
  */
-export type User$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$ticketsAgenteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ticket
+   */
+  select?: Prisma.TicketSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ticket
+   */
+  omit?: Prisma.TicketOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TicketInclude<ExtArgs> | null
+  where?: Prisma.TicketWhereInput
+  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
+  cursor?: Prisma.TicketWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
+}
+
+/**
+ * User.ticketsUsuario
+ */
+export type User$ticketsUsuarioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Ticket
    */

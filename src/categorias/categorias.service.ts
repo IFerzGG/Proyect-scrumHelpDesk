@@ -71,6 +71,12 @@ export class CategoriasService {
   }
 
   async removeCategoria(id: number) {
+    const categoria = await this.prisma.categoria.findUnique({
+      where: { id },
+    });
+    if (!categoria) {
+      throw new NotFoundException(`categoria de ID: ${id} no encontrada`);
+    }
     return await this.prisma.categoria.delete({
       where: { id },
     });

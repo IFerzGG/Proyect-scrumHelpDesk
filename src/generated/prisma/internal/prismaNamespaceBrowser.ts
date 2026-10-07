@@ -105,6 +105,7 @@ export const TicketScalarFieldEnum = {
   estado: 'estado',
   creado: 'creado',
   update: 'update',
+  agenteId: 'agenteId',
   usuarioId: 'usuarioId',
   categoriaId: 'categoriaId'
 } as const

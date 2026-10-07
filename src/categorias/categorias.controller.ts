@@ -13,17 +13,17 @@ import { CategoriasService } from './categorias.service.js';
 import { CreateCategoriaDto } from './dto/create-categoria.dto.js';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto.js';
 import {
-  ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @ApiTags('Categorias')
+@UseGuards(RolesGuard)
+@Roles('ADMIN','AGENTE')
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
