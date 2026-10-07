@@ -24,4 +24,6 @@ export class CreateTikectDto{
     @IsInt({message: "el id de categoria tiene que ser un numeor entero"})
     @IsPositive({message: "el id tiene que ser un nuemero positivo"})
     categoriaId: number
+
+    agenteId:number;//AGREGUE AQUI PARA QUE NO ME DIERAN ERRORES
 }

@@ -861,6 +861,7 @@ export const TicketScalarFieldEnum = {
   estado: 'estado',
   creado: 'creado',
   update: 'update',
+  agenteId: 'agenteId',
   usuarioId: 'usuarioId',
   categoriaId: 'categoriaId'
 } as const
@@ -870,6 +871,7 @@ export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof 
 
 export const ComentarioScalarFieldEnum = {
   id: 'id',
+  comentario: 'comentario',
   creado: 'creado',
   usuarioId: 'usuarioId',
   ticketId: 'ticketId'
@@ -883,7 +885,8 @@ export const NotificacionScalarFieldEnum = {
   reporte: 'reporte',
   mensaje: 'mensaje',
   tipo: 'tipo',
-  creado: 'creado'
+  creado: 'creado',
+  usuarioId: 'usuarioId'
 } as const
 
 export type NotificacionScalarFieldEnum = (typeof NotificacionScalarFieldEnum)[keyof typeof NotificacionScalarFieldEnum]

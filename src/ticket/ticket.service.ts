@@ -53,6 +53,7 @@ export class TicketService {
                 titulo: dto.titulo,
                 descripcion: dto.descripcion || null,
                 prioridad: dto.prioridad,
+                agenteId: dto.agenteId,
                 usuarioId: userid,
                 categoriaId: dto.categoriaId
             }
