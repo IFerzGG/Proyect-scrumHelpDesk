@@ -2,7 +2,6 @@ import { Body, Controller, Param, Patch, Post, Req, UseGuards} from '@nestjs/com
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TicketService } from './ticket.service.js';
 import { Get } from '@nestjs/common';
-import type { Request } from 'express';
 import { CreateTikectDto } from './dto/create-ticket.dto.js';
 import { UpdateTicketDto } from './dto/update-ticket.dto.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
