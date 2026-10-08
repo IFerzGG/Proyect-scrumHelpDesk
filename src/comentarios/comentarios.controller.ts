@@ -7,7 +7,7 @@ import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 import type { Request } from 'express';
 
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Comentarios')
 @Controller('comentarios')
@@ -22,7 +22,8 @@ export class ComentariosController {
         @Req() req: any,
     ) {
         // Usamos req.user.userId porque así lo define el jwt.strategy.ts
-        return this.comentariosService.findByTicket(ticketId, req.user.userId, req.user.role);
+      return this.comentariosService.findByTicket(ticketId, req.user.userId, req.user.role);
+           
     }
 
     @ApiOperation({ summary: 'Crea un nuevo comentario en un ticket' })
