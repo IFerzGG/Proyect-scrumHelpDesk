@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test WebSockets - Help Desk</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 700px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input { width: 70%; padding: 8px; margin-right: 10px; }
+        button { padding: 8px 16px; cursor: pointer; background: #4CAF50; color: white; border: none; border-radius: 4px; }
+        button.disconnect { background: #f44336; }
+        #logs { margin-top: 20px; border: 1px solid #ddd; padding: 10px; min-height: 200px; max-height: 400px; overflow-y: auto; background: #fafafa; }
+        .log-entry { padding: 8px; margin: 4px 0; border-left: 4px solid #2196F3; background: white; }
+        .log-entry.comentario { border-left-color: #FF9800; }
+        .log-entry.ticket { border-left-color: #4CAF50; }
+        .log-entry.estado { border-left-color: #9C27B0; }
+        .log-entry.error { border-left-color: #f44336; }
+        .status { padding: 8px; margin: 10px 0; border-radius: 4px; }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 Test de Notificaciones WebSocket</h1>
+        
+        <div>
+            <label><strong>Token JWT:</strong></label><br>
+            <input type="text" id="token" placeholder="Pega aquí tu token JWT (sin 'Bearer ')">
+        </div>
+        
+        <div style="margin-top: 15px;">
+            <button onclick="conectar()">Conectar</button>
+            <button class="disconnect" onclick="desconectar()">Desconectar</button>
+        </div>
+
+        <div id="status" class="status disconnected"> Desconectado</div>
+
+        <h3>📬 Notificaciones recibidas:</h3>
+        <div id="logs"></div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        let socket = null;
+
+        function log(tipo, mensaje) {
+            const logs = document.getElementById('logs');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${tipo}`;
+            const hora = new Date().toLocaleTimeString();
+            entry.innerHTML = `<strong>[${hora}]</strong> ${mensaje}`;
+            logs.appendChild(entry);
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function actualizarStatus(conectado) {
+            const status = document.getElementById('status');
+            if (conectado) {
+                status.className = 'status connected';
+                status.textContent = '🟢 Conectado al servidor WebSocket';
+            } else {
+                status.className = 'status disconnected';
+                status.textContent = '⚪ Desconectado';
+            }
+        }
+
+        function conectar() {
+            const token = document.getElementById('token').value.trim();
+            if (!token) {
+                log('error', '❌ Debes pegar un token JWT válido');
+                return;
+            }
+
+            // Desconectar si ya había uno
+            if (socket) socket.disconnect();
+
+            // Conectar al servidor (ajusta el puerto si es diferente)
+            socket = io('http://localhost:3000', {
+                auth: { token: token }
+            });
+
+            socket.on('connect', () => {
+                log('ticket', `✅ Conectado. Socket ID: ${socket.id}`);
+                actualizarStatus(true);
+            });
+
+            socket.on('disconnect', () => {
+                log('error', '❌ Desconectado del servidor');
+                actualizarStatus(false);
+            });
+
+            socket.on('connect_error', (err) => {
+                log('error', `❌ Error de conexión: ${err.message}`);
+                actualizarStatus(false);
+            });
+
+            // Escuchar los 3 eventos de notificación
+            socket.on('nuevoComentario', (data) => {
+                log('comentario', `💬 <strong>Nuevo Comentario:</strong> ${data.mensaje}`);
+            });
+
+            socket.on('nuevoTicket', (data) => {
+                log('ticket', ` <strong>Nuevo Ticket:</strong> ${data.mensaje}`);
+            });
+
+            socket.on('ticketActualizado', (data) => {
+                log('estado', `🔄 <strong>Ticket Actualizado:</strong> ${data.mensaje}`);
+            });
+        }
+
+        function desconectar() {
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+                log('error', '🔌 Desconexión manual');
+                actualizarStatus(false);
+            }
+        }
+    </script>
+</body>
+</html>
