@@ -91,6 +91,37 @@ Un Usuario puede tener muchas Notificaciones, pero una Notificacion pertenece a 
 
 ## La forma de la respuesta está documentada en el README para que un frontend pueda graficarla.
 
+## Guía de instalación del proyecto
+1. Desde una terminal de git Bash con la ruta destino del proyecto escribir "git clone https://github.com/IFerzGG/Proyect-scrumHelpDesk.git" (sin comillas).
+2. Con una terminal abierta en la ubicación del proyecto escribir "npm install" (Nota: Debe estar previamente instalada una versión de Node 22.0 o superior).
+3. Crear un en el mismo nivel que el archivo "env.example", nombralo ".env" y usa el ejemplo como base para ajustarlo según los parámetros de tu sistema. (JWT_SECRET debe ser de 32 caracteres o más)
+4. Escribir en terminal con la ubicación del proyecto "npm install tsx && npx prisma db seed".
+5. La API ya está lista y configurada para levantarse.
+
+# Guía para inicializar API y probar EndPoints
+1. En una terminal deberás ejecutar "npm run start:dev", después de unos segundos deberás ver como el servicio [Nest] manda varios mensajes.
+2. En tu navegador escribe la ruta **localhost:3000/api/docs** allí encontrarás la documentación de la API.
+3. Para generar un token deberás en el apartado de Auth en la ruta POST /auth/login modificar el email y password según el rol que deseas probar, algunos usuarios ya creados por la seed son:
+ ```json
+{
+    { "email": "admin@helpdesk.com", "Role": "ADMIN" },
+    { "email": "luis.agente@helpdesk.com", "Role": "AGENTE" },
+    { "email": "pedro@empresa.com", "Role": "EMPLEADO" }
+},{
+  "password":"Password123!"
+}
+```
+**Nota: La ruta POST auth/register sólo registra empleados**
+
+En la respuesta al login encontrarás el token, copia su contenido sin comillas y pégalo en el botón Authorize para mantener la sesión de ese usuario ingresado abierta.
+
+## Guía para probar las notificaciones
+La API cuenta con notificaciones usando WebSockets, por el momento este es un proyecto BackEnd por lo que la visualización de dichas notificaciones será un poco diferente.
+1. Con la API iniciada: Debes generar el token del usuario al cual deseas que esté "escuchando" para que reciba la notificación si se actualiza el estado de su ticket (en caso de ser empleado) o que la reciba cuando se le asigna algún ticket (en caso de ser agente) o si se crea algun comentario en el ticket en cuestión.
+2. Copia ese token, abre el archivo "test-websocket.ts" en la raíz del proyecto, dentro del archivo en la linea que dice:
+const token = 'Token Del Usuario que se va a conectar'; Deberás borrar todo lo que está dentro de las comillas y pegar el token que generaste en el paso 1 (debes mantener las comillas), guarda el archivo.
+3. Abre otra terminal en la ubicacion del proyecto y ejecuta: "npx tsx src/test-websocket.ts", al hacer esto deberas ver en la terminal donde está corriendo la API que el usuario #N se ha conectado, prueba los diferentes endpoints para ver las notificaciones de actualización que te genera
+
 ## Notificaciones Elección y justificación en README
 
 Elegimos **WebSockets con Socket.io** para ofrecer alertas en tiempo real.
