@@ -88,3 +88,36 @@ Un Usuario puede hacer muchos Comentarios, pero un Comentario pertenece a un sol
 
 ## Usuario → Notificaciones
 Un Usuario puede tener muchas Notificaciones, pero una Notificacion pertenece a un solo Usuario.
+
+## La forma de la respuesta está documentada en el README para que un frontend pueda graficarla.
+
+## Notificaciones Elección y justificación en README
+
+Elegimos **WebSockets con Socket.io** para ofrecer alertas en tiempo real.
+
+**¿Por qué?**
+1. **Tiempo real:** El usuario ve los cambios al instante sin recargar la página.
+2. **Desacoplado y resiliente:** Usamos `EventEmitter`. Los módulos de Tareas y Comentarios solo emiten eventos; si el envío de la notificación falla, la operación en la base de datos no se revierte.
+3. **Seguro:** La conexión al socket se autentica con el mismo token JWT de la API.
+
+## Endpoint de Métricas (GET /metricas)
+
+Este endpoint devuelve datos agregados listos para ser graficados por el frontend.
+
+**Permisos:** Solo accesible para roles `ADMIN` y `AGENTE`.
+
+**Estructura de la respuesta:**
+```json
+{
+  "totalTickets": 15,
+  "porCategoria": [
+    { "categoria": "Hardware", "cantidad": 5 },
+    { "categoria": "Software", "cantidad": 0 }
+  ],
+  "porEstado": [
+    { "estado": "ABIERTO", "cantidad": 2 },
+    { "estado": "ENPROCESO", "cantidad": 3 },
+    { "estado": "RESUELTO", "cantidad": 10 },
+    { "estado": "CERRADO", "cantidad": 0 }
+  ]
+}

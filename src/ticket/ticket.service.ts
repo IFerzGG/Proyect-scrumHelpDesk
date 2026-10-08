@@ -7,10 +7,13 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateTikectDto } from './dto/create-ticket.dto.js';
 import { EstadoTicket, Role } from '../generated/prisma/enums.js';
 import { UpdateTicketDto } from './dto/update-ticket.dto.js';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class TicketService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, 
+    private readonly eventEmitter: EventEmitter2)
+   {}
   async finall(id: number) {
     const encontrado = await this.prisma.user.findUnique({
       where: { id: id },
@@ -80,12 +83,13 @@ export class TicketService {
   }
 
   //capturar erro si la base de datos no encuentra el id  de categoria
-  async create(dto: CreateTikectDto, userid: number) {
+ async create(dto: CreateTikectDto, userid: number) {
     if (dto.agenteId) {
       await this.validaragente(dto.agenteId);
     }
 
-    return this.prisma.ticket.create({
+    // 1. Guardamos el resultado en una variable en lugar de hacer return directo
+    const resultado = await this.prisma.ticket.create({
       data: {
         titulo: dto.titulo,
         descripcion: dto.descripcion || null,
@@ -95,6 +99,16 @@ export class TicketService {
         categoriaId: dto.categoriaId,
       },
     });
+
+    // 2. Emitimos el evento para las notificaciones
+    this.eventEmitter.emit('ticket.creado', {
+      ticketId: resultado.id,
+      creadorId: userid,
+      agenteId: dto.agenteId || null,
+    });
+
+    // 3. Retornamos el resultado
+    return resultado;
   }
 
   async update(id: number, dto: UpdateTicketDto, userid: number) {
@@ -118,14 +132,26 @@ export class TicketService {
       }
       this.validarestado(idencontrado!.estado, dto.estado, user!.role);
     }
-    return this.prisma.ticket.update({
+    
+  const resultado = await this.prisma.ticket.update({
       where: { id: id },
       data: {
         ...(dto.agenteId && { agenteId: dto.agenteId }),
         ...(dto.estado && { estado: dto.estado }),
       },
     });
+
+    // Emitimos el evento para las notificaciones
+    this.eventEmitter.emit('ticket.actualizado', {
+      ticketId: id,
+      nuevoEstado: dto.estado,
+      agenteId: dto.agenteId,
+      creadorId: idencontrado.usuarioId,
+    });
+
+    return resultado;
   }
+
   private async validaragente(agenteId: number) {
     const agente = await this.prisma.user.findFirst({
       where: { id: agenteId, role: Role.AGENTE },

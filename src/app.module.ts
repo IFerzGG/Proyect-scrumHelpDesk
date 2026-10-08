@@ -12,6 +12,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
 import { CategoriasModule } from './categorias/categorias.module.js';
 import { TicketModule } from './ticket/ticket.module.js';
+import { ComentariosModule } from './comentarios/comentarios.module.js'; 
+import { EventEmitterModule } from '@nestjs/event-emitter'; 
+import { MetricasModule } from './metricas/metricas.module.js';
+import { NotificacionesModule } from './notificaciones/notificaciones.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -32,11 +36,15 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       appSecret: 'YOUR_APP_SECRET',
       serviceId: 'scrum-proyect',
     }),
+    EventEmitterModule.forRoot(),
     PrismaModule,
     CategoriasModule,
     AuthModule,
     UsersModule,
-    TicketModule
+    TicketModule,
+    ComentariosModule, 
+    MetricasModule,
+    NotificacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService,PrismaService, {provide:APP_GUARD, useClass:JwtAuthGuard}],
