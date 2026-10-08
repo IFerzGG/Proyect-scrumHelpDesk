@@ -12,16 +12,17 @@ const prisma = new PrismaClient({ adapter });
 const SALT_ROUNDS = 10;
 
 async function main() {
-  console.log('Iniciando seed...');
+  console.log('🌱  Iniciando seed...');
 
-  // ---------- Limpieza (orden por FKs) ----------
-  await prisma.notificacion.deleteMany();
-  await prisma.comentario.deleteMany();
-  await prisma.ticket.deleteMany();
-  await prisma.categoria.deleteMany();
-  await prisma.user.deleteMany();
+  // ---------- Reset total + reinicio de IDs desde 1 ----------
+
+  await prisma.$executeRawUnsafe(
+    'TRUNCATE TABLE notificaciones, comentarios, tickets, categorias, users RESTART IDENTITY CASCADE;',
+  );
+  console.log('  Tablas truncadas, IDs reseteados a 1');
 
   // ---------- Usuarios ----------
+
   const passwordHash = await bcrypt.hash('Password123!', SALT_ROUNDS);
 
   const admin = await prisma.user.create({
@@ -59,9 +60,12 @@ async function main() {
     ),
   );
 
-  console.log(`Usuarios: 1 admin, ${agentes.length} agentes, ${empleados.length} empleados`);
+  console.log(
+    `  Usuarios: admin=1, agentes=2-4, empleados=5-8 (${agentes.length + empleados.length + 1} total)`,
+  );
 
   // ---------- Categorías ----------
+
   const categorias = await Promise.all(
     [
       { nombre: 'Hardware', descripcion: 'Problemas con equipos físicos' },
@@ -72,9 +76,10 @@ async function main() {
     ].map((c) => prisma.categoria.create({ data: c })),
   );
 
-  console.log(`Categorías: ${categorias.length}`);
+  console.log(`  Categorías: 1-${categorias.length}`);
 
   // ---------- Tickets ----------
+
   const ticketsData = [
     {
       titulo: 'No enciende la laptop',
@@ -180,7 +185,7 @@ async function main() {
     tickets.push(ticket);
   }
 
-  console.log(`Tickets: ${tickets.length}`);
+  console.log(` Tickets: 1-${tickets.length}`);
 
   // ---------- Comentarios ----------
   await prisma.comentario.createMany({
@@ -213,7 +218,7 @@ async function main() {
     ],
   });
 
-  console.log('Comentarios creados');
+  console.log(' Comentarios creados');
 
   // ---------- Notificaciones ----------
   await prisma.notificacion.createMany({
@@ -245,8 +250,16 @@ async function main() {
     ],
   });
 
-  console.log('Notificaciones creadas');
-  console.log('Seed completado correctamente.');
+  console.log('  Notificaciones creadas');
+  console.log('');
+  console.log('  IDs generados (usa estos en Swagger):');
+  console.log(`    admin   → ${admin.id} (${admin.email})`);
+  console.log(`    agentes → ${agentes.map((a) => a.id).join(', ')}`);
+  console.log(`    empleados → ${empleados.map((e) => e.id).join(', ')}`);
+  console.log(`    categorías → 1..${categorias.length}`);
+  console.log(`    tickets → 1..${tickets.length}`);
+  console.log('');
+  console.log('  Seed completado correctamente.');
 }
 
 main()
