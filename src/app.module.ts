@@ -18,12 +18,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
-      validationSchema:envValidationSchema,
-      validationOptions:{
-        libraryOptions:{
-          abortEarly:false,
-          allowUnknown:true,
+      isGlobal: true,
+      validationSchema: envValidationSchema,
+      validationOptions: {
+        libraryOptions: {
+          abortEarly: false,
+          allowUnknown: true,
         },
       },
     }),
@@ -39,6 +39,11 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     TicketModule
   ],
   controllers: [AppController],
-  providers: [AppService,PrismaService, {provide:APP_GUARD, useClass:JwtAuthGuard}],
+  providers: [
+    AppService,
+    PrismaService,
+
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+  ],
 })
 export class AppModule {}
