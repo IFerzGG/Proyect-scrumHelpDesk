@@ -4,7 +4,7 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-vali
 
 export class LoginDto{
     @ApiProperty({
-        example:'user@organizacion.com',
+        example:'admin@helpdesk.com',
         description:'Ingresar el Email Correctamente',
     })
     @IsOptional()
@@ -13,7 +13,7 @@ export class LoginDto{
     email:string;
     
     @ApiProperty({
-        example:'123456',
+        example:'Password123!',
         description:'Ingresar Nueva Contraseña',
     })
     @IsOptional()

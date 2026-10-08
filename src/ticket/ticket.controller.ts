@@ -2,7 +2,6 @@ import { Body, Controller, Param, Patch, Post, Req, UseGuards} from '@nestjs/com
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TicketService } from './ticket.service.js';
 import { Get } from '@nestjs/common';
-import type { Request } from 'express';
 import { CreateTikectDto } from './dto/create-ticket.dto.js';
 import { UpdateTicketDto } from './dto/update-ticket.dto.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
@@ -19,13 +18,13 @@ export class TicketController {
     @Get()
     @Roles("ADMIN", "AGENTE", "EMPLEADO")
     getall(@Req() req:any){
-        return this.tickectService.finall(req.user.id)
+        return this.tickectService.finall(req.user.userId)
     }
     @ApiOperation({summary: "encuentra cualquier ticket"})
     @Get(":id")
     @Roles("EMPLEADO","ADMIN", "AGENTE")
     getoneall(@Param('id') id: string, @Req() req:any){
-        return this.tickectService.findoneall(+id, req.user.id)
+        return this.tickectService.findoneall(+id, req.user.userId)
     }
     @ApiOperation({summary: "crea un nuevo tickect"})
     @Post()
@@ -37,6 +36,6 @@ export class TicketController {
     @Patch(":id")
     @Roles("ADMIN", "AGENTE", "EMPLEADO")
     update(@Body() dto:UpdateTicketDto, @Param('id') id:string, @Req() req:any){
-        return this.tickectService.update(+id, dto, req.user.id)
+        return this.tickectService.update(+id, dto, req.user.userId)
     }
 }
