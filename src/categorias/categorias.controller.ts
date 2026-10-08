@@ -17,9 +17,11 @@ import {
   ApiResponse,
   ApiQuery,
   ApiTags,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @ApiTags('Categorias')
 @UseGuards(RolesGuard)
