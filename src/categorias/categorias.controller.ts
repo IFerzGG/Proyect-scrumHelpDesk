@@ -24,15 +24,13 @@ import { Roles } from '../auth/decorators/roles.decorator.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @ApiTags('Categorias')
-@UseGuards(RolesGuard)
-@Roles('ADMIN','AGENTE')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN', 'AGENTE')
+@ApiBearerAuth('JWT-auth')
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'AGENTE')
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Crear una nueva categoría',
     description: 'Crear una nueva categoría.',
@@ -91,9 +89,6 @@ export class CategoriasController {
     return this.categoriasService.findOneCategoria(+id);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'AGENTE')
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Modifica una categoría',
     description: 'Modifica una categoría con su ID.',
@@ -122,9 +117,6 @@ export class CategoriasController {
     return this.categoriasService.updateCategoria(+id, updateCategoriaDto);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'AGENTE')
   @ApiOperation({
     summary: 'Elimina una categoría',
     description: 'Elimina una categoría con su ID.',
