@@ -71,7 +71,7 @@ export class TicketService {
       },
     });
     if (!tickect) {
-      throw new NotFoundException(`no se encontro el tikect con id ${tikectid}}`);
+      throw new NotFoundException(`no se encontro el tikect con id ${tikectid}`);
     }
     const usuario = await this.prisma.user.findUnique({
       where: { id: id },
