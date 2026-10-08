@@ -32,7 +32,7 @@ export class CategoriasController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'AGENTE')
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Crear una nueva categoría',
     description: 'Crear una nueva categoría.',

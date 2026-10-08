@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Role } from '../generated/prisma/enums.js';
+import { Publico } from '../auth/decorators/publico.decorator.js';
 
 @UseGuards(RolesGuard)
 @Roles('ADMIN')

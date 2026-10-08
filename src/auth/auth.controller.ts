@@ -4,18 +4,19 @@ import { RegisterDto } from './dto/register.dto.js';
 import type { Request as ExpressRequest } from 'express'; 
 import { LocalAuthGuard } from './guards/local-auth.guard.js';
 import { Publico } from './decorators/publico.decorator.js';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto.js';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService:AuthService){}
 
-    @ApiOperation({summary:"Logea un Usuario Exsistente"})
+    @ApiOperation({summary:"Logea un Usuario Existente"})
     @HttpCode(HttpStatus.OK)
     @Publico()
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Req() req:ExpressRequest){
+    async login(@Req() req:ExpressRequest, @Body() data:LoginDto){
         return this.authService.login(req.user);
     }
 
@@ -28,6 +29,7 @@ export class AuthController {
         return this.authService.register(data);
     }
 
+    @ApiBearerAuth('JWT-auth')
     @ApiOperation({summary:"Retorna Informacion del Usuario Logeado"})
     @Get('profile')
     profile(@Req() req:ExpressRequest){

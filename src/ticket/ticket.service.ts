@@ -83,7 +83,7 @@ export class TicketService {
   }
 
   //capturar erro si la base de datos no encuentra el id  de categoria
- async create(dto: CreateTikectDto, userid: number) {
+ async create(dto: CreateTikectDto, userId: number) {
     if (dto.agenteId) {
       await this.validaragente(dto.agenteId);
     }
@@ -95,7 +95,7 @@ export class TicketService {
         descripcion: dto.descripcion || null,
         prioridad: dto.prioridad,
         agenteId: dto.agenteId || null,
-        usuarioId: userid,
+        usuarioId: userId,
         categoriaId: dto.categoriaId,
       },
     });
@@ -103,7 +103,7 @@ export class TicketService {
     // 2. Emitimos el evento para las notificaciones
     this.eventEmitter.emit('ticket.creado', {
       ticketId: resultado.id,
-      creadorId: userid,
+      creadorId: userId,
       agenteId: dto.agenteId || null,
     });
 

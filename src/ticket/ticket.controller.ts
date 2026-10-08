@@ -31,7 +31,7 @@ export class TicketController {
     @Post()
     @Roles("ADMIN", "AGENTE", "EMPLEADO")
     create(@Body() dto:CreateTikectDto, @Req() req:any){
-        return this.tickectService.create(dto, req.user.id)
+        return this.tickectService.create(dto, req.user.userId)
     }
     @ApiOperation({summary: "actuliza el estado de un ticket"})
     @Patch(":id")
