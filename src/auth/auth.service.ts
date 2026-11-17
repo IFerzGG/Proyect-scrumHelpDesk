@@ -6,32 +6,41 @@ import { RegisterDto } from './dto/register.dto.js';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly userService:UsersService,
-        private readonly jwtService:JwtService,
-    ){}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-    async validateUser(email:string, password:string){
-        const user = await this.userService.findByEmail(email)
-        if(user && (await bcrypt.compare(password,user.password))){
-            const {password, ...dataUser} = user;
-            return dataUser;
-        }
-        return null;
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findByEmail(email);
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const { password, ...dataUser } = user;
+      return dataUser;
     }
+    return null;
+  }
 
-    async login(user:any){
-        const payload = {
-            sub: user.id,
-            nombre:user.nombre,
-            apellido:user.apellido,
-            email: user.email,
-            role: user.role,
-        };
-        return {access_token: this.jwtService.sign(payload)};
-    }
+  async login(user: any) {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
 
-    async register(data:RegisterDto){
-        return await this.userService.create(data);
-    }
+    return {
+      access_token: this.jwtService.sign(payload),
+
+      usuario: {
+        id: user.id,
+        nombre: user.nombre,
+        apellido: user.apellido,
+        email: user.email,
+        rol: user.role,
+      },
+    };
+  }
+
+  async register(data: RegisterDto) {
+    return await this.userService.create(data);
+  }
 }
