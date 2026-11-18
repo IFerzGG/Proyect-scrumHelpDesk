@@ -8,6 +8,7 @@ import SinAccesoPage from './pages/SinAccesoPage';
 import RutaPublica from './auth/RutaPublica';
 
 import { TicketsListPage } from './pages/Tickets/ticketsList';
+import { TicketDetailPage } from './pages/Tickets/ticketDetail';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return sessionStorage.getItem('helpdesk-token') ? (
@@ -16,7 +17,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     <Navigate to="/login" replace />
   );
 }
-
 
 export default function App() {
   return (
@@ -58,10 +58,9 @@ export default function App() {
 
           {/* EMPLEADO */}
           <Route element={<RutaProtegida rolesPermitidos={['EMPLEADO']} />}>
-            <Route
-              path="/mis-solicitudes"
-              element={<PaginaPendiente titulo="Mis solicitudes" />}
-            />
+            <Route path="/mis-solicitudes" element={<TicketsListPage />} />
+            {/* 👇 NUEVA */}
+            <Route path="/mis-solicitudes/:id" element={<TicketDetailPage />} />
             <Route
               path="/tickets/nuevo"
               element={<PaginaPendiente titulo="Nuevo ticket" />}

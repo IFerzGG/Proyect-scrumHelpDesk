@@ -1,4 +1,5 @@
-import { api } from '../libs/axios';
+import { api } from './api';
+
 
 import type { Ticket, CreateTicketPay, UpdateTicket } from '../types/ticket';
 
@@ -16,7 +17,7 @@ export const ticketService = {
     return data;
   },
   update: async (id: number, dto: UpdateTicket): Promise<Ticket> => {
-    const {data} = await api.patch<Ticket>(`/ticket/${id}`, dto)
-    return data
-  }
+    const { data } = await api.patch<Ticket>(`/ticket/${id}`, dto);
+    return data;
+  },
 };

@@ -63,6 +63,7 @@ export class CategoriasController {
     description: 'Buscar articulos por categoria por nombre',
   })
   @Get('buscar')
+  @Roles('ADMIN', 'AGENTE', 'EMPLEADO')
   findByName(@Query('nombre') nombre: string) {
     return this.categoriasService.findByQuery(nombre);
   }
@@ -72,6 +73,7 @@ export class CategoriasController {
     description: 'Listar todas las categorías.',
   })
   @Get()
+  @Roles('ADMIN', 'AGENTE', 'EMPLEADO')
   findAllCategorias() {
     return this.categoriasService.findAllCategorias();
   }
@@ -85,6 +87,7 @@ export class CategoriasController {
     description: 'No encontrado.',
   })
   @Get(':id')
+  @Roles('ADMIN', 'AGENTE', 'EMPLEADO')
   findOneCategoria(@Param('id') id: string) {
     return this.categoriasService.findOneCategoria(+id);
   }

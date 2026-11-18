@@ -17,15 +17,17 @@ export interface Ticket {
   agente?: { id: number; nombre: string } | null;
   categoria?: { id: number; nombre: string };
 }
+
 export interface CreateTicketPay {
   titulo: string;
   descripcion?: string;
   prioridad: Prioridad;
   categoriaId: number;
 }
+
 export interface UpdateTicket {
   estado?: EstadoTicket;
-  agente?: number;
+  agenteId?: number;
 }
 
 export const EMPLEADO_TRANSITIONS: Record<EstadoTicket, EstadoTicket[]> = {
