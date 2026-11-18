@@ -4,12 +4,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { getLoginError, login } from '../services/auth';
 import { loginSchema, type LoginFormValues } from '../schemas/loginSchema';
+import { useAuthStore } from '../store/useAuthStore';
 
 function Brand({ light = false }: { light?: boolean }) {
   return (
-    <div className={`flex items-center gap-3 ${light ? 'text-white' : 'text-slate-900'}`}>
+    <div
+      className={`flex items-center gap-3 ${light ? 'text-white' : 'text-slate-900'}`}
+    >
       <div className="grid size-10 place-items-center rounded-xl bg-teal-500 text-white shadow-lg shadow-teal-900/15">
-        <svg viewBox="0 0 24 24" fill="none" className="size-5" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          className="size-5"
+          aria-hidden="true"
+        >
           <path
             d="M4.5 12.5 9 17l10.5-10"
             stroke="currentColor"
@@ -67,12 +75,17 @@ export default function LoginPage() {
     defaultValues: { email: '', password: '' },
   });
 
+  const iniciarSesion = useAuthStore((state) => state.iniciarSesion);
+
   const onSubmit = async (values: LoginFormValues) => {
     setRequestError('');
+
     try {
-      const { access_token: token } = await login(values);
-      sessionStorage.setItem('helpdesk-token', token);
-      navigate('/', { replace: true });
+      const { access_token, usuario } = await login(values);
+
+      iniciarSesion(access_token, usuario);
+
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       setRequestError(getLoginError(error));
     }
@@ -97,25 +110,31 @@ export default function LoginPage() {
             <span className="block text-teal-300">trabajar mejor.</span>
           </h1>
           <p className="mt-6 max-w-md text-base leading-7 text-slate-400">
-            Un solo lugar para organizar solicitudes, colaborar con tu equipo y mantener cada
-            incidencia en movimiento.
+            Un solo lugar para organizar solicitudes, colaborar con tu equipo y
+            mantener cada incidencia en movimiento.
           </p>
 
           <div className="mt-12 max-w-md rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-200">Tu equipo, en sintonía</p>
-                <p className="mt-1 text-xs text-slate-400">Las solicitudes bajo control</p>
+                <p className="text-sm font-medium text-slate-200">
+                  Tu equipo, en sintonía
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  Las solicitudes bajo control
+                </p>
               </div>
               <div className="flex -space-x-2">
-                {['bg-teal-400', 'bg-indigo-400', 'bg-amber-400'].map((color, index) => (
-                  <div
-                    key={color}
-                    className={`grid size-8 place-items-center rounded-full border-2 border-slate-900 ${color} text-[10px] font-bold text-slate-950`}
-                  >
-                    {['A', 'M', 'J'][index]}
-                  </div>
-                ))}
+                {['bg-teal-400', 'bg-indigo-400', 'bg-amber-400'].map(
+                  (color, index) => (
+                    <div
+                      key={color}
+                      className={`grid size-8 place-items-center rounded-full border-2 border-slate-900 ${color} text-[10px] font-bold text-slate-950`}
+                    >
+                      {['A', 'M', 'J'][index]}
+                    </div>
+                  ),
+                )}
                 <div className="grid size-8 place-items-center rounded-full border-2 border-slate-900 bg-slate-700 text-[10px] font-medium text-white">
                   +4
                 </div>
@@ -142,7 +161,9 @@ export default function LoginPage() {
         </div>
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-12">
           <div className="mb-10">
-            <p className="text-sm font-semibold text-teal-700">Qué bueno verte</p>
+            <p className="text-sm font-semibold text-teal-700">
+              Qué bueno verte
+            </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
               Inicia sesión
             </h2>
@@ -151,9 +172,16 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="space-y-5"
+          >
             <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
+              <label
+                htmlFor="email"
+                className="mb-2 block text-sm font-medium text-slate-700"
+              >
                 Correo electrónico
               </label>
               <input
@@ -175,10 +203,15 @@ export default function LoginPage() {
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium text-slate-700">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-slate-700"
+                >
                   Contraseña
                 </label>
-                <span className="text-xs text-slate-400">Mínimo 6 caracteres</span>
+                <span className="text-xs text-slate-400">
+                  Mínimo 6 caracteres
+                </span>
               </div>
               <div className="relative">
                 <input
@@ -187,14 +220,20 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   placeholder="••••••••"
                   aria-invalid={Boolean(errors.password)}
-                  aria-describedby={errors.password ? 'password-error' : undefined}
+                  aria-describedby={
+                    errors.password ? 'password-error' : undefined
+                  }
                   className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 aria-invalid:border-rose-400"
                   {...register('password')}
                 />
                 <button
                   type="button"
                   onClick={() => setPasswordVisible((visible) => !visible)}
-                  aria-label={passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  aria-label={
+                    passwordVisible
+                      ? 'Ocultar contraseña'
+                      : 'Mostrar contraseña'
+                  }
                   className="absolute inset-y-0 right-0 grid w-12 place-items-center text-slate-400 transition hover:text-slate-700"
                 >
                   <EyeIcon visible={passwordVisible} />
@@ -229,7 +268,12 @@ export default function LoginPage() {
               ) : (
                 <>
                   Entrar a mi cuenta
-                  <svg viewBox="0 0 20 20" fill="none" className="size-4" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    className="size-4"
+                    aria-hidden="true"
+                  >
                     <path
                       d="M4 10h12m-5-5 5 5-5 5"
                       stroke="currentColor"
@@ -244,7 +288,12 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-8 flex items-center gap-3 text-xs text-slate-400">
-            <svg viewBox="0 0 20 20" fill="none" className="size-4 shrink-0" aria-hidden="true">
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              className="size-4 shrink-0"
+              aria-hidden="true"
+            >
               <path
                 d="M5.5 8V6a4.5 4.5 0 0 1 9 0v2m-10 0h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"
                 stroke="currentColor"
