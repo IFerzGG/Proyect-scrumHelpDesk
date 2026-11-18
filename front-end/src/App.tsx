@@ -7,6 +7,17 @@ import PaginaPendiente from './pages/PaginaPendiente';
 import SinAccesoPage from './pages/SinAccesoPage';
 import RutaPublica from './auth/RutaPublica';
 
+import { TicketsListPage } from './pages/Tickets/ticketsList';
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  return sessionStorage.getItem('helpdesk-token') ? (
+    children
+  ) : (
+    <Navigate to="/login" replace />
+  );
+}
+
+
 export default function App() {
   return (
     <Routes>
