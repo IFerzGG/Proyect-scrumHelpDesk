@@ -27,18 +27,29 @@ export function TicketsListPage() {
   const load = async () => {
     setLoading(true);
     setError(null);
-    try {
-      const [ts, cs] = await Promise.all([
-        ticketService.list(),
-        categoriasService.list(),
-      ]);
-      setTickets(ts);
-      setCategorias(cs);
-    } catch {
+
+    const [ticketsRes, categoriasRes] = await Promise.allSettled([
+      ticketService.list(),
+      categoriasService.list(),
+    ]);
+
+    if (ticketsRes.status === 'fulfilled' && Array.isArray(ticketsRes.value)) {
+      setTickets(ticketsRes.value);
+    } else {
+      setTickets([]);
       setError('No se pudieron cargar los tickets. Intenta de nuevo.');
-    } finally {
-      setLoading(false);
     }
+
+    if (
+      categoriasRes.status === 'fulfilled' &&
+      Array.isArray(categoriasRes.value)
+    ) {
+      setCategorias(categoriasRes.value);
+    } else {
+      setCategorias([]);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -49,12 +60,12 @@ export function TicketsListPage() {
   if (error) return <p className="p-6 text-red-600">{error}</p>;
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Mis tickets</h1>
+        <h1 className="text-2xl font-bold">Mis solicitudes</h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
         >
           + Nuevo ticket
         </button>
@@ -72,11 +83,11 @@ export function TicketsListPage() {
       </p>
 
       {filtered.length === 0 ? (
-        <p className="text-center py-10 text-slate-500">
+        <p className="py-10 text-center text-slate-500">
           No hay tickets que coincidan con los filtros.
         </p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
           <table className="min-w-full text-sm">
             <thead className="bg-slate-50 text-slate-600">
               <tr>
@@ -91,7 +102,10 @@ export function TicketsListPage() {
             </thead>
             <tbody>
               {filtered.map((t) => (
-                <tr key={t.id} className="border-t hover:bg-slate-50">
+                <tr
+                  key={t.id}
+                  className="border-t border-slate-100 hover:bg-slate-50"
+                >
                   <td className="px-4 py-3 font-mono text-slate-500">
                     #{t.id}
                   </td>
@@ -104,12 +118,12 @@ export function TicketsListPage() {
                     <TicketBadge estado={t.estado} />
                   </td>
                   <td className="px-4 py-3 text-slate-500">
-                    {new Date(t.creado).toLocaleDateString()}
+                    {new Date(t.creado).toLocaleDateString('es-MX')}
                   </td>
                   <td className="px-4 py-3">
                     <Link
-                      to={`/tickets/${t.id}`}
-                      className="text-blue-600 hover:underline text-sm"
+                      to={`/mis-solicitudes/${t.id}`}
+                      className="text-sm text-teal-600 hover:underline"
                     >
                       Ver detalle
                     </Link>
@@ -126,7 +140,11 @@ export function TicketsListPage() {
           categorias={categorias}
           onClose={() => setShowCreate(false)}
           onCreated={(t) => {
-            setTickets((prev) => [t, ...prev]);
+            const enriched: Ticket = {
+              ...t,
+              categoria: categorias.find((c) => c.id === t.categoriaId),
+            };
+            setTickets((prev) => [enriched, ...prev]);
             setShowCreate(false);
           }}
         />
@@ -137,9 +155,9 @@ export function TicketsListPage() {
 
 function SkeletonList() {
   return (
-    <div className="p-6 space-y-3">
+    <div className="space-y-3">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="h-12 bg-slate-200 animate-pulse rounded" />
+        <div key={i} className="h-12 animate-pulse rounded bg-slate-200" />
       ))}
     </div>
   );

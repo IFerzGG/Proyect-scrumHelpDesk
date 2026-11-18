@@ -1,6 +1,10 @@
-import { api } from '../libs/axios';
-import type { Categoria, CrearCateoriaPayload, UpdateCategoriaPayload } from '../types/categoria';
-
+import { api } from './api';
+('../libs/axios');
+import type {
+  Categoria,
+  CrearCateoriaPayload,
+  UpdateCategoriaPayload,
+} from '../types/categoria';
 
 export const categoriasService = {
   list: async (): Promise<Categoria[]> => {
