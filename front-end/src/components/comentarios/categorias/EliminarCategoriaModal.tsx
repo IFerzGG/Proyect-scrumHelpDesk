@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { categoriasService } from '../../../services/categorias.service';
 import type { Categoria } from '../../../types/categoria';
+import { useNotificationsStore } from '../../../store/useNotificationsStore';
 
 interface EliminarCategoriaModalProps {
   categoria: Categoria;
@@ -18,6 +19,7 @@ export function EliminarCategoriaModal({
 }: EliminarCategoriaModalProps) {
   const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const showToast = useNotificationsStore((state) => state.showToast);
 
   const eliminar = async () => {
     setEliminando(true);
@@ -25,6 +27,11 @@ export function EliminarCategoriaModal({
 
     try {
       await categoriasService.remove(categoria.id);
+      showToast({
+        kind: 'success',
+        title: 'Categoría eliminada',
+        message: `Se eliminó "${categoria.nombre}".`,
+      });
       await onDeleted();
     } catch (err) {
       if (axios.isAxiosError<{ message?: string | string[] }>(err)) {

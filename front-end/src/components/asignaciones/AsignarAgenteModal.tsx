@@ -5,6 +5,7 @@ import { UserRoundCheck, X } from 'lucide-react';
 import { ticketService } from '../../services/tickect.service';
 import type { Ticket } from '../../types/ticket';
 import type { UsuarioListado } from '../../services/usuarios';
+import { useNotificationsStore } from '../../store/useNotificationsStore';
 
 interface AsignarAgenteModalProps {
   ticket: Ticket;
@@ -22,6 +23,7 @@ export function AsignarAgenteModal({
   const [agenteId, setAgenteId] = useState<number | ''>(ticket.agenteId ?? '');
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const showToast = useNotificationsStore((state) => state.showToast);
 
   const asignar = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +38,11 @@ export function AsignarAgenteModal({
 
     try {
       await ticketService.update(ticket.id, { agenteId });
+      showToast({
+        kind: 'success',
+        title: 'Asignación actualizada',
+        message: `El ticket #${ticket.id} fue asignado correctamente.`,
+      });
       await onAssigned();
     } catch (err) {
       if (axios.isAxiosError<{ message?: string | string[] }>(err)) {

@@ -7,14 +7,22 @@ import { TicketPriorityBadge } from '../../components/tickets/TicketPriorityBadg
 import { UpdateEstadoModal } from '../../components/tickets/UpdateTicket';
 import type { Ticket } from '../../types/ticket';
 import ComentariosTicket from '../../components/comentarios/ComentariosTicket';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export function TicketDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const usuario = useAuthStore((state) => state.usuario);
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showUpdate, setShowUpdate] = useState(false);
+  const rutaTickets =
+    usuario?.rol === 'EMPLEADO'
+      ? '/mis-solicitudes'
+      : usuario?.rol === 'AGENTE'
+        ? '/mis-tickets'
+        : '/tickets';
 
   useEffect(() => {
     if (!id) return;
@@ -48,7 +56,7 @@ export function TicketDetailPage() {
       <div className="space-y-4">
         <p className="text-red-600">{error}</p>
         <button
-          onClick={() => navigate('/mis-solicitudes')}
+          onClick={() => navigate(rutaTickets)}
           className="text-teal-600 hover:underline"
         >
           ← Volver a mis solicitudes
@@ -60,7 +68,7 @@ export function TicketDetailPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <Link
-        to="/mis-solicitudes"
+        to={rutaTickets}
         className="text-sm text-teal-600 hover:underline"
       >
         ← Volver a mis solicitudes

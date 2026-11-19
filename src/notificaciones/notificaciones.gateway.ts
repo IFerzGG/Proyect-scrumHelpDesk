@@ -38,9 +38,9 @@ export class NotificacionesGateway implements OnGatewayConnection, OnGatewayDisc
             this.userSockets.set(userId, client.id);
             
             // Unir al usuario a su "sala" personal
-            client.join(`user:${userId}`);
+            await client.join(`user:${userId}`);
             this.logger.log(`Usuario ${userId} conectado al socket ${client.id}`);
-        } catch (error) {
+        } catch {
             this.logger.error('Token inválido en conexión WebSocket');
             client.disconnect();
         }

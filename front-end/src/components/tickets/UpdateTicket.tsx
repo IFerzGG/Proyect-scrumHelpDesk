@@ -5,6 +5,27 @@ import {
   type EstadoTicket,
   type Ticket,
 } from '../../types/ticket';
+import { useNotificationsStore } from '../../store/useNotificationsStore';
+import { useAuthStore } from '../../store/useAuthStore';
+
+const transitionsByRole = {
+  ADMIN: {
+    ABIERTO: ['ENPROCESO', 'CERRADO'],
+    ENPROCESO: ['RESUELTO', 'CERRADO'],
+    RESUELTO: ['CERRADO'],
+    CERRADO: [],
+  },
+  AGENTE: {
+    ABIERTO: ['ENPROCESO', 'CERRADO'],
+    ENPROCESO: ['RESUELTO'],
+    RESUELTO: ['ENPROCESO', 'CERRADO'],
+    CERRADO: [],
+  },
+  EMPLEADO: EMPLEADO_TRANSITIONS,
+} satisfies Record<
+  'ADMIN' | 'AGENTE' | 'EMPLEADO',
+  Record<EstadoTicket, EstadoTicket[]>
+>;
 
 interface Props {
   ticket: Ticket;
@@ -13,7 +34,9 @@ interface Props {
 }
 
 export function UpdateEstadoModal({ ticket, onClose, onUpdated }: Props) {
-  const opciones = EMPLEADO_TRANSITIONS[ticket.estado];
+  const showToast = useNotificationsStore((state) => state.showToast);
+  const rol = useAuthStore((state) => state.usuario?.rol) ?? 'EMPLEADO';
+  const opciones = transitionsByRole[rol][ticket.estado];
   const [selected, setSelected] = useState<EstadoTicket | ''>(
     opciones[0] ?? '',
   );
@@ -42,6 +65,11 @@ export function UpdateEstadoModal({ ticket, onClose, onUpdated }: Props) {
     setError(null);
     try {
       const updated = await ticketService.update(ticket.id, { estado: selected });
+      showToast({
+        kind: 'success',
+        title: 'Estado actualizado',
+        message: `El ticket #${ticket.id} ahora está ${selected}.`,
+      });
       onUpdated(updated);
     } catch {
       setError('No se pudo actualizar el estado.');

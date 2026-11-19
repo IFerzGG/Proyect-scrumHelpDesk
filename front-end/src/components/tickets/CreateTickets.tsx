@@ -6,6 +6,7 @@ import { ticketService } from '../../services/tickect.service';
 import type { Categoria } from '../../types/categoria';
 import type { Ticket } from '../../types/ticket';
 import axios from 'axios';
+import { useNotificationsStore } from '../../store/useNotificationsStore';
 
 const schema = z.object({
   titulo: z.string().trim().min(3, 'Mínimo 3 caracteres'),
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export function CreateTicketModal({ categorias, onClose, onCreated }: Props) {
+  const showToast = useNotificationsStore((state) => state.showToast);
   const {
     register,
     handleSubmit,
@@ -40,6 +42,11 @@ export function CreateTicketModal({ categorias, onClose, onCreated }: Props) {
       const t = await ticketService.create({
         ...values,
         descripcion: values.descripcion || undefined,
+      });
+      showToast({
+        kind: 'success',
+        title: 'Ticket creado',
+        message: `Tu solicitud #${t.id} se registró correctamente.`,
       });
       onCreated(t);
     } catch (e) {

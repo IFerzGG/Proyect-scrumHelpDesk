@@ -9,19 +9,21 @@ import {
 } from 'lucide-react';
 
 import StatCard from '../components/dashboard/StatCard';
-import TicketActivityChart from '../components/dashboard/TicketActivityChart';
+import TicketStatusChart from '../components/dashboard/TicketStatusChart';
 import RecentTickets from '../components/dashboard/RecentTickets';
 import { useDashboard } from '../hooks/useDashboard';
 
-import type { ActividadSemanal } from '../components/dashboard/TicketActivityChart';
 import type { TicketReciente } from '../components/dashboard/RecentTickets';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function DashboardPage() {
+  const usuario = useAuthStore((state) => state.usuario);
   // El hook debe ejecutarse dentro del componente.
   const {
     metricas,
     ticketsRecientes,
-    actividadSemanal,
+    metricasPorEstado,
+    metricasPorCategoria,
     cargando,
     error,
     recargar,
@@ -117,16 +119,21 @@ export default function DashboardPage() {
           icono={UserX}
         />
 
-        <StatCard
-          titulo="Agentes"
-          valor={metricas.totalAgentes}
-          descripcion="Agentes de soporte registrados"
-          icono={Users}
-        />
+        {usuario?.rol === 'ADMIN' && (
+          <StatCard
+            titulo="Agentes"
+            valor={metricas.totalAgentes}
+            descripcion="Agentes de soporte registrados"
+            icono={Users}
+          />
+        )}
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.6fr_1fr]">
-        <TicketActivityChart datos={actividadSemanal} />
+        <TicketStatusChart
+          estados={metricasPorEstado}
+          categorias={metricasPorCategoria}
+        />
         <RecentTickets tickets={tickets} />
       </section>
     </div>

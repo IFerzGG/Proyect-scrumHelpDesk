@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
 import axios from 'axios';
 
 import { comentariosService } from '../../services/comentarios';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useNotificationsStore } from '../../store/useNotificationsStore';
 
 import type { Comentario } from '../../types/comentario';
 
@@ -21,38 +22,59 @@ export default function ComentariosTicket({
   const [error, setError] = useState<string | null>(null);
 
   const usuario = useAuthStore((state) => state.usuario);
+  const showToast = useNotificationsStore((state) => state.showToast);
+  const ultimaNotificacion = useNotificationsStore(
+    (state) => state.notifications[0],
+  );
+  const ultimaNotificacionId = useRef(ultimaNotificacion?.id);
+  const solicitudComentarios = useRef(0);
 
-  useEffect(() => {
-    let activo = true;
-
-    async function cargarComentarios() {
-      setLoading(true);
+  const cargarComentarios = useCallback(
+    async (mostrarCarga: boolean) => {
+      const solicitud = ++solicitudComentarios.current;
+      if (mostrarCarga) setLoading(true);
       setError(null);
-      setComentarios([]);
 
       try {
         const data = await comentariosService.getByTicket(ticketId);
-
-        if (activo) {
+        if (solicitud === solicitudComentarios.current) {
           setComentarios(data);
         }
       } catch {
-        if (activo) {
+        if (solicitud === solicitudComentarios.current) {
           setError('No se pudieron cargar los comentarios.');
         }
       } finally {
-        if (activo) {
+        if (mostrarCarga && solicitud === solicitudComentarios.current) {
           setLoading(false);
         }
       }
+    },
+    [ticketId],
+  );
+
+  useEffect(() => {
+    setComentarios([]);
+    void cargarComentarios(true);
+  }, [cargarComentarios]);
+
+  useEffect(() => {
+    if (
+      !ultimaNotificacion ||
+      ultimaNotificacion.id === ultimaNotificacionId.current
+    ) {
+      return;
     }
 
-    cargarComentarios();
+    ultimaNotificacionId.current = ultimaNotificacion.id;
 
-    return () => {
-      activo = false;
-    };
-  }, [ticketId]);
+    if (
+      ultimaNotificacion.event === 'nuevoComentario' &&
+      ultimaNotificacion.ticketId === ticketId
+    ) {
+      void cargarComentarios(false);
+    }
+  }, [ultimaNotificacion, ticketId, cargarComentarios]);
 
   const enviarComentario = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +95,11 @@ export default function ComentariosTicket({
 
       setComentarios(actualizados);
       setMensaje('');
+      showToast({
+        kind: 'success',
+        title: 'Comentario enviado',
+        message: `Tu comentario se agregó al ticket #${ticketId}.`,
+      });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 403) {

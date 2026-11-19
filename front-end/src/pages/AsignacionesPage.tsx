@@ -30,7 +30,6 @@ export default function AsignacionesPage() {
   const [ticketSeleccionado, setTicketSeleccionado] = useState<Ticket | null>(
     null,
   );
-  const [mensaje, setMensaje] = useState<string | null>(null);
 
   const cargarDatos = async () => {
     setLoading(true);
@@ -81,7 +80,6 @@ export default function AsignacionesPage() {
 
   const asignacionGuardada = async () => {
     setTicketSeleccionado(null);
-    setMensaje('Asignación actualizada correctamente.');
     await cargarDatos();
   };
 
@@ -192,15 +190,6 @@ export default function AsignacionesPage() {
         </div>
       </div>
 
-      {mensaje && (
-        <p
-          role="status"
-          className="rounded-xl bg-teal-50 p-4 text-sm text-teal-800"
-        >
-          {mensaje}
-        </p>
-      )}
-
       {error && (
         <p
           role="alert"
@@ -288,7 +277,6 @@ export default function AsignacionesPage() {
                         <button
                           type="button"
                           onClick={() => {
-                            setMensaje(null);
                             setTicketSeleccionado(ticket);
                           }}
                           className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-teal-700 hover:bg-teal-50"

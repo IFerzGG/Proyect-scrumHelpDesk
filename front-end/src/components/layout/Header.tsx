@@ -2,7 +2,9 @@ import { Menu, LogOut, UserRound } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '../../store/useAuthStore';
+import { useNotificationsStore } from '../../store/useNotificationsStore';
 import { opcionesNavegacion } from '../../config/navegacion';
+import NotificationCenter from './NotificationCenter';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -22,6 +24,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const titulo = opcionActual?.nombre ?? 'Espacio de trabajo';
 
   const logout = () => {
+    useNotificationsStore.getState().clearNotifications();
     cerrarSesion();
     navigate('/login', { replace: true });
   };
@@ -48,6 +51,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-3">
+        <NotificationCenter />
+
         <div className="hidden text-right sm:block">
           <p className="text-sm font-medium text-slate-800">
             {usuario ? `${usuario.nombre} ${usuario.apellido}` : 'Usuario'}

@@ -85,7 +85,10 @@ export default function LoginPage() {
 
       iniciarSesion(access_token, usuario);
 
-      navigate('/dashboard', { replace: true });
+      navigate(
+        usuario.rol === 'EMPLEADO' ? '/mis-solicitudes' : '/dashboard',
+        { replace: true },
+      );
     } catch (error) {
       setRequestError(getLoginError(error));
     }

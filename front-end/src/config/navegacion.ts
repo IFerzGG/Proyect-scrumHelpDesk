@@ -4,7 +4,6 @@ import {
   TicketPlus,
   Users,
   ClipboardList,
-  FolderKanban,
   type LucideIcon,
 } from 'lucide-react';
 import { Tags } from 'lucide-react';
@@ -28,18 +27,18 @@ export const opcionesNavegacion: OpcionNavegacion[] = [
     nombre: 'Resumen',
     ruta: '/dashboard',
     icono: LayoutDashboard,
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'AGENTE'],
   },
   {
     nombre: 'Solicitudes',
     ruta: '/tickets',
     icono: Ticket,
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'AGENTE'],
   },
   {
     nombre: 'Asignaciones',
     ruta: '/asignaciones',
-    icono: FolderKanban,
+    icono: ClipboardList,
     roles: ['ADMIN'],
   },
   {

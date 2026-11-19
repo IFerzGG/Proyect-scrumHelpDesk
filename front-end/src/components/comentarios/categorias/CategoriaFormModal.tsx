@@ -10,6 +10,7 @@ import {
 } from '../../../schemas/categoriaSchema';
 import { categoriasService } from '../../../services/categorias.service';
 import type { Categoria } from '../../../types/categoria';
+import { useNotificationsStore } from '../../../store/useNotificationsStore';
 
 interface CategoriaFormModalProps {
   categoria: Categoria | null;
@@ -23,6 +24,7 @@ export function CategoriaFormModal({
   onSaved,
 }: CategoriaFormModalProps) {
   const [error, setError] = useState<string | null>(null);
+  const showToast = useNotificationsStore((state) => state.showToast);
 
   const {
     register,
@@ -51,6 +53,11 @@ export function CategoriaFormModal({
         await categoriasService.create(datos);
       }
 
+      showToast({
+        kind: 'success',
+        title: categoria ? 'Categoría actualizada' : 'Categoría creada',
+        message: `La categoría "${datos.nombre}" se guardó correctamente.`,
+      });
       await onSaved();
     } catch (err) {
       if (axios.isAxiosError<{ message?: string | string[] }>(err)) {

@@ -6,7 +6,12 @@ export default function RutaPublica() {
   const usuario = useAuthStore((state) => state.usuario);
 
   if (token && usuario) {
-    return <Navigate to="/dashboard" replace />;
+    return (
+      <Navigate
+        to={usuario.rol === 'EMPLEADO' ? '/mis-solicitudes' : '/dashboard'}
+        replace
+      />
+    );
   }
 
   return <Outlet />;

@@ -4,8 +4,12 @@ import { useEffect } from 'react';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
+import ToastViewport from './ToastViewport';
+import { useRealtimeNotifications } from '../../hooks/useRealtimeNotifications';
 
 export default function AppLayout() {
+  useRealtimeNotifications();
+
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
   const location = useLocation();
 
@@ -27,6 +31,7 @@ export default function AppLayout() {
           <Outlet />
         </main>
       </div>
+      <ToastViewport />
     </div>
   );
 }

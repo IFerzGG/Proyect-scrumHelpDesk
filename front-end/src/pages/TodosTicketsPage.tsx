@@ -172,7 +172,7 @@ export default function TodosTicketsPage() {
                     </td>
                     <td className="px-5 py-4">
                       <Link
-                        to={`/mis-solicitudes/${ticket.id}`}
+                        to={`/tickets/${ticket.id}`}
                         className="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:underline"
                       >
                         Ver detalle

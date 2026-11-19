@@ -27,7 +27,6 @@ export default function CategoriasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modal, setModal] = useState<Modal>(null);
-  const [mensaje, setMensaje] = useState<string | null>(null);
 
   const cargarCategorias = useCallback(async () => {
     setLoading(true);
@@ -57,13 +56,11 @@ export default function CategoriasPage() {
 
   const despuesDeGuardar = async () => {
     setModal(null);
-    setMensaje('Categoría guardada correctamente.');
     await cargarCategorias();
   };
 
   const despuesDeEliminar = async () => {
     setModal(null);
-    setMensaje('Categoría eliminada correctamente.');
     await cargarCategorias();
   };
 
@@ -83,10 +80,7 @@ export default function CategoriasPage() {
 
         <button
           type="button"
-          onClick={() => {
-            setMensaje(null);
-            setModal({ tipo: 'crear' });
-          }}
+          onClick={() => setModal({ tipo: 'crear' })}
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-teal-700"
         >
           <Plus size={18} />
@@ -131,10 +125,7 @@ export default function CategoriasPage() {
 
           <button
             type="button"
-            onClick={() => {
-              setMensaje(null);
-              void cargarCategorias();
-            }}
+            onClick={() => void cargarCategorias()}
             disabled={loading}
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50"
           >
@@ -143,15 +134,6 @@ export default function CategoriasPage() {
           </button>
         </div>
       </div>
-
-      {mensaje && (
-        <div
-          role="status"
-          className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-800"
-        >
-          {mensaje}
-        </div>
-      )}
 
       {error && (
         <div
