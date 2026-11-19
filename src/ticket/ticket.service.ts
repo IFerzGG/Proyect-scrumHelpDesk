@@ -133,7 +133,12 @@ export class TicketService {
       this.validarestado(idencontrado!.estado, dto.estado, user!.role);
     }
     
-  const resultado = await this.prisma.ticket.update({
+    const estadoCambiado =
+      dto.estado !== undefined && dto.estado !== idencontrado.estado;
+    const agenteCambiado =
+      dto.agenteId !== undefined && dto.agenteId !== idencontrado.agenteId;
+
+    const resultado = await this.prisma.ticket.update({
       where: { id: id },
       data: {
         ...(dto.agenteId && { agenteId: dto.agenteId }),
@@ -141,13 +146,17 @@ export class TicketService {
       },
     });
 
-    // Emitimos el evento para las notificaciones
-    this.eventEmitter.emit('ticket.actualizado', {
-      ticketId: id,
-      nuevoEstado: dto.estado,
-      agenteId: dto.agenteId,
-      creadorId: idencontrado.usuarioId,
-    });
+    if (estadoCambiado || agenteCambiado) {
+      this.eventEmitter.emit('ticket.actualizado', {
+        ticketId: id,
+        creadorId: idencontrado.usuarioId,
+        actorId: userid,
+        estadoAnterior: idencontrado.estado,
+        nuevoEstado: resultado.estado,
+        agenteAnteriorId: idencontrado.agenteId,
+        agenteId: resultado.agenteId,
+      });
+    }
 
     return resultado;
   }
