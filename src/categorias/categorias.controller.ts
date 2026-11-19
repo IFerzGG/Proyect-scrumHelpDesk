@@ -25,7 +25,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @ApiTags('Categorias')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('ADMIN', 'AGENTE')
+@Roles('ADMIN', 'AGENTE', 'EMPLEADO')
 @ApiBearerAuth('JWT-auth')
 @Controller('categorias')
 export class CategoriasController {

@@ -2,8 +2,8 @@ import { api } from './api';
 ('../libs/axios');
 import type {
   Categoria,
-  CrearCateoriaPayload,
-  UpdateCategoriaPayload,
+  CrearCategoriaDTO,
+  ActualizarCategoriaDTO,
 } from '../types/categoria';
 
 export const categoriasService = {
@@ -24,14 +24,14 @@ export const categoriasService = {
     return data;
   },
 
-  create: async (payload: CrearCateoriaPayload): Promise<Categoria> => {
+  create: async (payload: CrearCategoriaDTO): Promise<Categoria> => {
     const { data } = await api.post<Categoria>('/categorias', payload);
     return data;
   },
 
   update: async (
     id: number,
-    payload: UpdateCategoriaPayload,
+    payload: ActualizarCategoriaDTO,
   ): Promise<Categoria> => {
     const { data } = await api.patch<Categoria>(`/categorias/${id}`, payload);
     return data;

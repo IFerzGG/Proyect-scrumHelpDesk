@@ -5,9 +5,9 @@ export interface Categoria {
   creado: string;
 }
 
-export interface CrearCateoriaPayload {
+export interface CrearCategoriaDTO {
   nombre: string;
   descripcion?: string;
 }
 
-export type UpdateCategoriaPayload = Partial<CrearCateoriaPayload>
+export type ActualizarCategoriaDTO = Partial<CrearCategoriaDTO>;

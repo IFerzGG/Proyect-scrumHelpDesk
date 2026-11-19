@@ -6,17 +6,12 @@ import RutaProtegida from './auth/RutaProtegida';
 import PaginaPendiente from './pages/PaginaPendiente';
 import SinAccesoPage from './pages/SinAccesoPage';
 import RutaPublica from './auth/RutaPublica';
-
+import CategoriasPage from './pages/CategoriasPage';
+import AgentesPage from './pages/AgentesPage';
+import TodosTicketsPage from './pages/TodosTicketsPage';
 import { TicketsListPage } from './pages/Tickets/ticketsList';
 import { TicketDetailPage } from './pages/Tickets/ticketDetail';
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  return sessionStorage.getItem('helpdesk-token') ? (
-    children
-  ) : (
-    <Navigate to="/login" replace />
-  );
-}
+import AsignacionesPage from './pages/AsignacionesPage';
 
 export default function App() {
   return (
@@ -29,24 +24,17 @@ export default function App() {
       <Route element={<RutaProtegida />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-
+          <Route
+            element={<RutaProtegida rolesPermitidos={['ADMIN', 'AGENTE']} />}
+          >
+            <Route path="/categorias" element={<CategoriasPage />} />
+          </Route>
           <Route path="/sin-acceso" element={<SinAccesoPage />} />
 
           {/* ADMIN */}
-          <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>
-            <Route
-              path="/tickets"
-              element={<PaginaPendiente titulo="Solicitudes" />}
-            />
-            <Route
-              path="/asignaciones"
-              element={<PaginaPendiente titulo="Asignaciones" />}
-            />
-            <Route
-              path="/agentes"
-              element={<PaginaPendiente titulo="Agentes" />}
-            />
-          </Route>
+          <Route path="/tickets" element={<TodosTicketsPage />} />
+          <Route path="/agentes" element={<AgentesPage />} />
+          <Route path="/asignaciones" element={<AsignacionesPage />} />
 
           {/* AGENTE */}
           <Route element={<RutaProtegida rolesPermitidos={['AGENTE']} />}>

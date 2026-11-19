@@ -26,7 +26,7 @@ export default function TicketActivityChart({
       <h2 className="font-semibold">Actividad de solicitudes</h2>
 
       <p className="mt-1 text-xs text-slate-400">
-        Solicitudes creadas y resueltas esta semana
+        Tickets creados esta semana y cuántos de ellos están resueltos
       </p>
 
       <div className="mt-5 h-64 w-full">
@@ -54,7 +54,7 @@ export default function TicketActivityChart({
             <Line
               type="monotone"
               dataKey="resueltos"
-              name="Resueltos"
+              name="Actualmente resueltos"
               stroke="#818cf8"
               strokeWidth={2.5}
             />

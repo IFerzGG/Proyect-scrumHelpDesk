@@ -7,7 +7,7 @@ import {
   FolderKanban,
   type LucideIcon,
 } from 'lucide-react';
-
+import { Tags } from 'lucide-react';
 import type { Rol } from '../types/auth';
 
 export interface OpcionNavegacion {
@@ -19,10 +19,16 @@ export interface OpcionNavegacion {
 
 export const opcionesNavegacion: OpcionNavegacion[] = [
   {
+    nombre: 'Categorías',
+    ruta: '/categorias',
+    icono: Tags,
+    roles: ['ADMIN', 'AGENTE'],
+  },
+  {
     nombre: 'Resumen',
     ruta: '/dashboard',
     icono: LayoutDashboard,
-    roles: ['ADMIN', 'AGENTE', 'EMPLEADO'],
+    roles: ['ADMIN'],
   },
   {
     nombre: 'Solicitudes',
