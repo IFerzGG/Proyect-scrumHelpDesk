@@ -1,45 +1,47 @@
-import { Tickets, Clock3, TrendingUp, CheckCircle2 } from 'lucide-react';
+import {
+  Ticket,
+  Clock,
+  LoaderCircle,
+  CircleCheck,
+  UserX,
+  Users,
+  RefreshCw,
+} from 'lucide-react';
 
 import StatCard from '../components/dashboard/StatCard';
 import TicketActivityChart from '../components/dashboard/TicketActivityChart';
 import RecentTickets from '../components/dashboard/RecentTickets';
+import { useDashboard } from '../hooks/useDashboard';
 
 import type { ActividadSemanal } from '../components/dashboard/TicketActivityChart';
 import type { TicketReciente } from '../components/dashboard/RecentTickets';
 
-// Datos temporales
-const actividad: ActividadSemanal[] = [
-  { day: 'Lun', nuevos: 14, resueltos: 10 },
-  { day: 'Mar', nuevos: 19, resueltos: 15 },
-  { day: 'Mié', nuevos: 12, resueltos: 17 },
-  { day: 'Jue', nuevos: 24, resueltos: 18 },
-  { day: 'Vie', nuevos: 17, resueltos: 21 },
-  { day: 'Sáb', nuevos: 8, resueltos: 9 },
-  { day: 'Dom', nuevos: 6, resueltos: 7 },
-];
-
-const tickets: TicketReciente[] = [
-  {
-    id: '#TK-1048',
-    titulo: 'No puedo acceder al sistema',
-    categoria: 'Acceso',
-    estado: 'En proceso',
-  },
-  {
-    id: '#TK-1047',
-    titulo: 'Monitor con pantalla intermitente',
-    categoria: 'Hardware',
-    estado: 'Abierto',
-  },
-  {
-    id: '#TK-1046',
-    titulo: 'Solicitud de acceso a carpeta',
-    categoria: 'Permisos',
-    estado: 'Resuelto',
-  },
-];
-
 export default function DashboardPage() {
+  // El hook debe ejecutarse dentro del componente.
+  const {
+    metricas,
+    ticketsRecientes,
+    actividadSemanal,
+    cargando,
+    error,
+    recargar,
+  } = useDashboard();
+
+  // Adaptamos los tickets de la API al componente existente.
+  const tickets: TicketReciente[] = ticketsRecientes.map((ticket) => ({
+    id: `#TK-${ticket.id}`,
+    titulo: ticket.titulo,
+    categoria: ticket.categoria?.nombre ?? 'Sin categoría',
+    estado:
+      ticket.estado === 'ENPROCESO'
+        ? 'En proceso'
+        : ticket.estado === 'ABIERTO'
+          ? 'Abierto'
+          : ticket.estado === 'RESUELTO'
+            ? 'Resuelto'
+            : 'Cerrado',
+  }));
+
   return (
     <div>
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -59,47 +61,72 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <span className="w-fit rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500">
-          Datos de demostración
-        </span>
+        <button
+          type="button"
+          onClick={() => void recargar()}
+          disabled={cargando}
+          className="inline-flex w-fit items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+        >
+          <RefreshCw size={16} />
+          {cargando ? 'Actualizando...' : 'Actualizar'}
+        </button>
       </div>
 
-      <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {error && (
+        <div
+          role="alert"
+          className="mt-5 rounded-xl bg-red-50 p-4 text-sm text-red-700"
+        >
+          {error}
+        </div>
+      )}
+
+      <section className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard
-          titulo="Solicitudes totales"
-          valor={128}
-          descripcion="+12%"
-          icono={Tickets}
-          color="teal"
+          titulo="Total de tickets"
+          valor={metricas.totalTickets}
+          descripcion="Tickets registrados"
+          icono={Ticket}
         />
 
         <StatCard
-          titulo="Pendientes"
-          valor={24}
-          descripcion="8 requieren atención"
-          icono={Clock3}
-          color="amber"
+          titulo="Tickets abiertos"
+          valor={metricas.abiertos}
+          descripcion="Solicitudes pendientes de atención"
+          icono={Clock}
         />
 
         <StatCard
           titulo="En proceso"
-          valor={18}
-          descripcion="En seguimiento"
-          icono={TrendingUp}
-          color="blue"
+          valor={metricas.enProceso}
+          descripcion="Tickets que están siendo atendidos"
+          icono={LoaderCircle}
         />
 
         <StatCard
-          titulo="Resueltas"
-          valor={86}
-          descripcion="+8 esta semana"
-          icono={CheckCircle2}
-          color="green"
+          titulo="Resueltos"
+          valor={metricas.resueltos}
+          descripcion="Solicitudes resueltas"
+          icono={CircleCheck}
+        />
+
+        <StatCard
+          titulo="Sin asignar"
+          valor={metricas.sinAsignar}
+          descripcion="Tickets pendientes de asignación"
+          icono={UserX}
+        />
+
+        <StatCard
+          titulo="Agentes"
+          valor={metricas.totalAgentes}
+          descripcion="Agentes de soporte registrados"
+          icono={Users}
         />
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.6fr_1fr]">
-        <TicketActivityChart datos={actividad} />
+        <TicketActivityChart datos={actividadSemanal} />
         <RecentTickets tickets={tickets} />
       </section>
     </div>

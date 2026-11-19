@@ -6,6 +6,7 @@ import { TicketBadge } from '../../components/tickets/TicketBadge';
 import { TicketPriorityBadge } from '../../components/tickets/TicketPriorityBadge';
 import { UpdateEstadoModal } from '../../components/tickets/UpdateTicket';
 import type { Ticket } from '../../types/ticket';
+import ComentariosTicket from '../../components/comentarios/ComentariosTicket';
 
 export function TicketDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -96,6 +97,8 @@ export function TicketDetailPage() {
           </p>
         )}
       </header>
+      {/* Historial de comentarios del ticket */}
+      <ComentariosTicket ticketId={ticket.id} />
 
       {showUpdate && (
         <UpdateEstadoModal

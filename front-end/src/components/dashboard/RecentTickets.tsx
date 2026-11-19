@@ -4,7 +4,7 @@ export interface TicketReciente {
   id: string;
   titulo: string;
   categoria: string;
-  estado: 'Abierto' | 'En proceso' | 'Resuelto';
+  estado: 'Abierto' | 'En proceso' | 'Resuelto' | 'Cerrado';
 }
 
 interface RecentTicketsProps {
